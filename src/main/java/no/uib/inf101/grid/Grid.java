@@ -3,11 +3,28 @@ package no.uib.inf101.grid;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * A grid of cells.
+ *
+ * @param <E> the type of elements in the grid
+ */
 public class Grid<E> implements IGrid<E> {
+    /** number of rows in the grid */
     private int rows;
+
+    /** number of cols in the grid */
     private int cols;
+
+    /** the grid */
     private ArrayList<GridCell<E>> cells = new ArrayList<GridCell<E>>();
 
+    /**
+     * Create a new grid with the given number of rows and columns.
+     * 
+     * @param rows         number of rows
+     * @param cols         number of columns
+     * @param defaultValue the default value for all cells
+     */
     public Grid(int rows, int cols, E defaultValue) {
         this.rows = rows;
         this.cols = cols;
@@ -18,6 +35,13 @@ public class Grid<E> implements IGrid<E> {
         }
     }
 
+    /**
+     * Create a new grid with the given number of rows and columns. And sets the
+     * default value to null.
+     * 
+     * @param rows number of rows
+     * @param cols number of columns
+     */
     public Grid(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
