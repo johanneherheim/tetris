@@ -1,5 +1,13 @@
 package no.uib.inf101.tetris.model.tetromino;
 
-public class TetrominoFactory {
-
+/**
+ * A factory for creating tetrominos.
+ */
+public interface TetrominoFactory {
+    /**
+     * Get the next tetromino.
+     * 
+     * @return Tetromino
+     */
+    Tetromino getNext();
 }
