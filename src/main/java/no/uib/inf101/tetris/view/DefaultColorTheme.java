@@ -24,11 +24,11 @@ public class DefaultColorTheme implements ColorTheme {
 
     @Override
     public Color getFrameColor() {
-        return Color.LIGHT_GRAY;
+        return new Color(0, 0, 0, 0);
     }
 
     @Override
     public Color getBackgroundColor() {
-        return Color.WHITE;
+        return null;
     }
 }

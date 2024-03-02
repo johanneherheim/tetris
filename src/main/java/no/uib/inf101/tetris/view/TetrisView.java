@@ -60,9 +60,9 @@ public class TetrisView extends JPanel {
             CellPositionToPixelConverter converter, ColorTheme ct) {
         for (GridCell<Character> gridCell : grid) {
             Rectangle2D tile = converter.getBoundsForCell(gridCell.pos());
-            // Color color = ct.getCellColor(gridCell.value());
-            // g2.setColor(color);
-            g2.setColor(Color.PINK);
+            Color color = ct.getCellColor(gridCell.value());
+            g2.setColor(color);
+            // g2.setColor(Color.PINK);
             g2.fill(tile);
 
         }
