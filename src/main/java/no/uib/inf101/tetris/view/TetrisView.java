@@ -13,15 +13,16 @@ import no.uib.inf101.grid.GridCell;
 
 public class TetrisView extends JPanel {
     ViewableTetrisModel tetrisModel;
-    ColorTheme colorTheme;
+    private ColorTheme colorTheme;
     private static final int TETRISINNERMARGIN = 1;
+    private static final int MARGIN = 15;
 
     public TetrisView(ViewableTetrisModel tetrisModel) {
         this.tetrisModel = tetrisModel;
         this.colorTheme = new DefaultColorTheme();
-        this.setBackground(colorTheme.getBackgroundColor());
+        this.setBackground(colorTheme.getFrameColor());
         this.setFocusable(true);
-        this.setPreferredSize(new Dimension(300, 400));
+        this.setPreferredSize(new Dimension(400, 800));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class TetrisView extends JPanel {
      */
 
     private void drawGame(Graphics2D g2) {
-        Rectangle2D background = new Rectangle(0, 0, getWidth(), getHeight());
+        Rectangle2D background = new Rectangle(MARGIN, MARGIN, getWidth() - 2 * MARGIN, getHeight() - 2 * MARGIN);
         g2.setColor(colorTheme.getBackgroundColor());
         g2.fill(background);
 
@@ -47,11 +48,19 @@ public class TetrisView extends JPanel {
         drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme);
     }
 
+    /**
+     * Draws the cells
+     * 
+     * @param g2         the graphics object
+     * @param grid       the grid
+     * @param cellInfo   the cell position to pixel converter
+     * @param colorTheme the color theme
+     */
     private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid,
-            CellPositionToPixelConverter cellInfo, ColorTheme colorTheme) {
+            CellPositionToPixelConverter cellInfo, ColorTheme ct) {
         for (GridCell<Character> gridCell : grid) {
             Rectangle2D tile = cellInfo.getBoundsForCell(gridCell.pos());
-            // Color color = colorTheme.getCellColor(gridCell.value());
+            // Color color = ct.getCellColor(gridCell.value());
             // g2.setColor(color);
             g2.setColor(Color.PINK);
             g2.fill(tile);
