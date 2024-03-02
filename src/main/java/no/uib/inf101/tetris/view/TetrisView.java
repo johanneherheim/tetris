@@ -53,13 +53,13 @@ public class TetrisView extends JPanel {
      * 
      * @param g2         the graphics object
      * @param grid       the grid
-     * @param cellInfo   the cell position to pixel converter
+     * @param converter  the cell position to pixel converter
      * @param colorTheme the color theme
      */
     private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid,
-            CellPositionToPixelConverter cellInfo, ColorTheme ct) {
+            CellPositionToPixelConverter converter, ColorTheme ct) {
         for (GridCell<Character> gridCell : grid) {
-            Rectangle2D tile = cellInfo.getBoundsForCell(gridCell.pos());
+            Rectangle2D tile = converter.getBoundsForCell(gridCell.pos());
             // Color color = ct.getCellColor(gridCell.value());
             // g2.setColor(color);
             g2.setColor(Color.PINK);
