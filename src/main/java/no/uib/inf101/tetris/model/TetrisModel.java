@@ -5,9 +5,20 @@ import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
 import no.uib.inf101.tetris.view.ViewableTetrisModel;
 
-public class TetrisModel implements ViewableTetrisModel {
+/**
+ * This class implements the ViewableTetrisModel interface, and is used to give
+ * the view access to the model.
+ */
 
+public class TetrisModel implements ViewableTetrisModel {
+    /** The tetrisBoard object saved in the model */
     TetrisBoard tetrisBoard;
+
+    /**
+     * Class constructor
+     * 
+     * @param tetrisBoard the tetrisBoard
+     */
 
     public TetrisModel(TetrisBoard tetrisBoard) {
         this.tetrisBoard = tetrisBoard;
