@@ -113,9 +113,16 @@ public class Tetromino implements Iterable<GridCell<Character>> {
         return new Tetromino(type, shape, newPosition);
     }
 
-    Tetromino shiftedToTopCenterOf(GridDimension gridDimension) {
-        int cols = gridDimension.cols();
-        return shiftedBy(0, cols / 2 - 1);
+    /**
+     * Move the tetromino to the top center of the grid.
+     * 
+     * @param gridDimension the dimension of the grid.
+     * @return Tetromino with the same type and shape,
+     *         but position in the middle.
+     */
+    public Tetromino shiftedToTopCenterOf(GridDimension gridDimension) {
+        int col = (gridDimension.cols() - shape[0].length) / 2;
+        return shiftedBy(0, col);
     }
 
     @Override
