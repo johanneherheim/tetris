@@ -2,6 +2,9 @@ package no.uib.inf101.tetris.view;
 
 import java.awt.Color;
 
+/**
+ * The default color theme for the tetris game.
+ */
 public class DefaultColorTheme implements ColorTheme {
 
     @Override
@@ -21,15 +24,11 @@ public class DefaultColorTheme implements ColorTheme {
 
     @Override
     public Color getFrameColor() {
-        // You can choose a frame color here
-        // For example, return Color.GRAY for a gray frame, or use a transparent color.
-        return new Color(0, 0, 0, 0); // Fully transparent black
+        return Color.LIGHT_GRAY;
     }
 
     @Override
     public Color getBackgroundColor() {
-        // You can choose a background color here
-        // For example, return Color.WHITE for a white background.
         return Color.WHITE;
     }
 }
