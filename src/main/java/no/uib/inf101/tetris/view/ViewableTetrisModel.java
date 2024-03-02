@@ -19,4 +19,13 @@ public interface ViewableTetrisModel {
      *         the board
      */
     Iterable<GridCell<Character>> getTilesOnBoard();
+
+    /**
+     * Gives us all the positions of the tiles in the falling tetromino
+     * 
+     * @return Iterable<GridCell<Character>> which iterates over all the tiles in
+     *         the falling tetromino
+     */
+
+    Iterable<GridCell<Character>> fallingTetromino();
 }
