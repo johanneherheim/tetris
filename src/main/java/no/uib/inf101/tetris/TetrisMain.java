@@ -2,6 +2,7 @@ package no.uib.inf101.tetris;
 
 import javax.swing.JFrame;
 
+import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.tetris.model.TetrisBoard;
 import no.uib.inf101.tetris.model.TetrisModel;
 import no.uib.inf101.tetris.view.TetrisView;
@@ -10,7 +11,12 @@ public class TetrisMain {
   public static final String WINDOW_TITLE = "INF101 Tetris";
 
   public static void main(String[] args) {
-    TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
+    TetrisBoard tetrisBoard = new TetrisBoard(3, 4);
+    tetrisBoard.set(new CellPosition(0, 0), 'g');
+    tetrisBoard.set(new CellPosition(0, 3), 'y');
+    tetrisBoard.set(new CellPosition(2, 0), 'r');
+    tetrisBoard.set(new CellPosition(2, 3), 'b');
+
     TetrisModel tetrisModel = new TetrisModel(tetrisBoard);
     TetrisView view = new TetrisView(tetrisModel);
 
