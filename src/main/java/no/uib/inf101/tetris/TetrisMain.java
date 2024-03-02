@@ -11,11 +11,13 @@ public class TetrisMain {
   public static final String WINDOW_TITLE = "INF101 Tetris";
 
   public static void main(String[] args) {
-    TetrisBoard tetrisBoard = new TetrisBoard(3, 4);
+    int rows = 20;
+    int cols = 10;
+    TetrisBoard tetrisBoard = new TetrisBoard(rows, cols);
     tetrisBoard.set(new CellPosition(0, 0), 'g');
-    tetrisBoard.set(new CellPosition(0, 3), 'y');
-    tetrisBoard.set(new CellPosition(2, 0), 'r');
-    tetrisBoard.set(new CellPosition(2, 3), 'b');
+    tetrisBoard.set(new CellPosition(0, cols - 1), 'y');
+    tetrisBoard.set(new CellPosition(rows - 1, 0), 'r');
+    tetrisBoard.set(new CellPosition(rows - 1, cols - 1), 'b');
 
     TetrisModel tetrisModel = new TetrisModel(tetrisBoard);
     TetrisView view = new TetrisView(tetrisModel);
