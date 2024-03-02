@@ -2,9 +2,10 @@ package no.uib.inf101.tetris;
 
 import javax.swing.JFrame;
 
-import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.tetris.model.TetrisBoard;
 import no.uib.inf101.tetris.model.TetrisModel;
+import no.uib.inf101.tetris.model.tetromino.RandomTetrominoFactory;
+import no.uib.inf101.tetris.model.tetromino.TetrominoFactory;
 import no.uib.inf101.tetris.view.TetrisView;
 
 public class TetrisMain {
@@ -13,13 +14,16 @@ public class TetrisMain {
   public static void main(String[] args) {
     int rows = 20;
     int cols = 10;
-    TetrisBoard tetrisBoard = new TetrisBoard(rows, cols);
-    tetrisBoard.set(new CellPosition(0, 0), 'g');
-    tetrisBoard.set(new CellPosition(0, cols - 1), 'y');
-    tetrisBoard.set(new CellPosition(rows - 1, 0), 'r');
-    tetrisBoard.set(new CellPosition(rows - 1, cols - 1), 'b');
 
-    TetrisModel tetrisModel = new TetrisModel(tetrisBoard);
+    TetrisBoard tetrisBoard = new TetrisBoard(rows, cols);
+    // tetrisBoard.set(new CellPosition(0, 0), 'g');
+    // tetrisBoard.set(new CellPosition(0, cols - 1), 'y');
+    // tetrisBoard.set(new CellPosition(rows - 1, 0), 'r');
+    // tetrisBoard.set(new CellPosition(rows - 1, cols - 1), 'b');
+
+    TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
+
+    TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
     TetrisView view = new TetrisView(tetrisModel);
 
     // The JFrame is the "root" application window.
