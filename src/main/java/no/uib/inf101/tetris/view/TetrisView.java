@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
-import javax.swing.text.View;
 
 public class TetrisView extends JPanel {
     ViewableTetrisModel model;
@@ -19,6 +18,10 @@ public class TetrisView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawGame(g2);
+    }
+
+    private void drawGame(Graphics2D g2) {
+        // TODO draw the game
     }
 
 }
