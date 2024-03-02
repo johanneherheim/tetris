@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import no.uib.inf101.grid.CellPosition;
 
-public class TestTetrisBoard {
+public class TetrisBoardTest {
     @Test
     public void prettyStringTest() {
         TetrisBoard board = new TetrisBoard(3, 4);
