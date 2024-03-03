@@ -128,27 +128,30 @@ public class Tetromino implements Iterable<GridCell<Character>> {
 
     public boolean isMovableTo(Grid<Character> grid, int deltaRow, int deltaCol) {
         Tetromino candidate = shiftedBy(deltaRow, deltaCol);
-        CellPosition pos = candidate.cellPosition;
-        boolean[][] shape = candidate.shape;
+        int startRow = candidate.cellPosition.row();
+        int startCol = candidate.cellPosition.col();
 
-        if (deltaCol == -1 && pos.col() < 0) {
-            for (boolean[] row : shape) {
-                if (row[0]) {
-                    return false;
+        // saves all the positions to the tetromino relative to the grid
+        ArrayList<CellPosition> tetrominoPositions = new ArrayList<>();
+        for (int row = 0; row < candidate.shape.length; row++) {
+            for (int col = 0; col < candidate.shape[0].length; col++) {
+                if (candidate.shape[row][col]) {
+                    tetrominoPositions.add(new CellPosition(row + startRow, col + startCol));
                 }
             }
-        } else if ((deltaCol == 1) && (pos.col() + shape[0].length > grid.cols())) {
-            for (boolean[] row : shape) {
-                if (row[shape[0].length - 1]) {
-                    return false;
-                }
-            }
-        } else if (deltaRow == -1 && pos.row() < -1) {
-            return false;
-        } else if (deltaRow == 1 && pos.row() + shape.length > grid.rows()) {
-            return false;
         }
 
+        // for all positions in the grid
+        for (CellPosition tetrominoPosition : tetrominoPositions) {
+            int gridRow = tetrominoPosition.row();
+            int gridCol = tetrominoPosition.col();
+
+            // if the position is outside the grid or overlaps with an occupied cell
+            if (gridRow < 0 || gridRow >= grid.rows() || gridCol < 0 || gridCol >= grid.cols()
+                    || !grid.get(tetrominoPosition).equals('-')) {
+                return false;
+            }
+        }
         return true;
     }
 
