@@ -108,7 +108,7 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      * @return a new tetromino with the same type and shape, but with a new
      *         position.
      */
-    Tetromino shiftedBy(int deltaRow, int deltaCol) {
+    public Tetromino shiftedBy(int deltaRow, int deltaCol) {
         CellPosition newPosition = new CellPosition(cellPosition.row() + deltaRow, cellPosition.col() + deltaCol);
         return new Tetromino(type, shape, newPosition);
     }
