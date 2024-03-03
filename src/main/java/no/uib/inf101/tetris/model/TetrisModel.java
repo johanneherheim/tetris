@@ -49,13 +49,10 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     @Override
     public boolean moveTetromino(int deltaRow, int deltaCol) {
-        Tetromino newTetromino = tetromino;
-        try {
-            newTetromino = newTetromino.shiftedBy(deltaRow, deltaCol);
-            this.tetromino = newTetromino;
+        if (tetromino.isMovableTo(tetrisBoard, deltaRow, deltaCol)) {
+            tetromino = tetromino.shiftedBy(deltaRow, deltaCol);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
 }
