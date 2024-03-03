@@ -13,7 +13,7 @@ import no.uib.inf101.tetris.view.ViewableTetrisModel;
  * the view access to the model.
  */
 
-public class TetrisModel implements ViewableTetrisModel {
+public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel {
     /** The tetrisBoard object saved in the model */
     TetrisBoard tetrisBoard;
 
@@ -45,5 +45,17 @@ public class TetrisModel implements ViewableTetrisModel {
     @Override
     public Iterable<GridCell<Character>> fallingTetromino() {
         return tetromino;
+    }
+
+    @Override
+    public boolean moveTetromino(int deltaRow, int deltaCol) {
+        Tetromino newTetromino = tetromino;
+        try {
+            newTetromino = newTetromino.shiftedBy(deltaRow, deltaCol);
+            this.tetromino = newTetromino;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
