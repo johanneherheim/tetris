@@ -123,7 +123,7 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      */
     public Tetromino shiftedToTopCenterOf(GridDimension gridDimension) {
         int col = (gridDimension.cols() - shape[0].length) / 2;
-        return shiftedBy(0, col);
+        return shiftedBy(-1, col);
     }
 
     public boolean isMovableTo(Grid<Character> grid, int deltaRow, int deltaCol) {
