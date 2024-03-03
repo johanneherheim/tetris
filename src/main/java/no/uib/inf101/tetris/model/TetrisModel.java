@@ -55,4 +55,15 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         }
         return false;
     }
+
+    @Override
+    public boolean rotateTetromino() {
+        if (tetromino.isRotatable(tetrisBoard)) {
+            tetromino = tetromino.rotate();
+            return true;
+        }
+        return false;
+
+    }
+
 }
