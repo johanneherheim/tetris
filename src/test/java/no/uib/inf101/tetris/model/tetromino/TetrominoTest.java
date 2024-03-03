@@ -112,4 +112,48 @@ public class TetrominoTest {
      * // TODO: Test for 3x3 Tetromino with an odd number of columns
      * }
      */
+
+    @Test
+    public void testRotateTetrominoI() {
+
+        // Create a standard 'I' tetromino placed at (0, 0)
+        Tetromino tetro = Tetromino.newTetromino('I');
+        tetro = tetro.rotate();
+
+        // Collect which objects are iterated through
+        List<GridCell<Character>> objs = new ArrayList<>();
+        for (GridCell<Character> gc : tetro) {
+            objs.add(gc);
+        }
+
+        // Check that we got the expected GridCell objects
+        assertEquals(4, objs.size());
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 2), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 2), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(2, 2), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(3, 2), 'I')));
+
+    }
+
+    @Test
+    public void testRotateTetrominoT() {
+
+        // Create a standard 'T' tetromino placed at (0, 0)
+        Tetromino tetro = Tetromino.newTetromino('T');
+        tetro = tetro.rotate();
+
+        // Collect which objects are iterated through
+        List<GridCell<Character>> objs = new ArrayList<>();
+        for (GridCell<Character> gc : tetro) {
+            objs.add(gc);
+        }
+
+        // Check that we got the expected GridCell objects
+        assertEquals(4, objs.size());
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 1), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 1), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(2, 1), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 0), 'T')));
+
+    }
 };
