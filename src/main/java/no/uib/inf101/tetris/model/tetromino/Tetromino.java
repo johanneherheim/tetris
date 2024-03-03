@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 import no.uib.inf101.grid.CellPosition;
+import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
 
@@ -123,6 +124,32 @@ public class Tetromino implements Iterable<GridCell<Character>> {
     public Tetromino shiftedToTopCenterOf(GridDimension gridDimension) {
         int col = (gridDimension.cols() - shape[0].length) / 2;
         return shiftedBy(0, col);
+    }
+
+    public boolean isMovableTo(Grid<Character> grid, int deltaRow, int deltaCol) {
+        Tetromino candidate = shiftedBy(deltaRow, deltaCol);
+        CellPosition pos = candidate.cellPosition;
+        boolean[][] shape = candidate.shape;
+
+        if (deltaCol == -1 && pos.col() < 0) {
+            for (boolean[] row : shape) {
+                if (row[0]) {
+                    return false;
+                }
+            }
+        } else if ((deltaCol == 1) && (pos.col() + shape[0].length > grid.cols())) {
+            for (boolean[] row : shape) {
+                if (row[shape[0].length - 1]) {
+                    return false;
+                }
+            }
+        } else if (deltaRow == -1 && pos.row() < -1) {
+            return false;
+        } else if (deltaRow == 1 && pos.row() + shape.length > grid.rows()) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
