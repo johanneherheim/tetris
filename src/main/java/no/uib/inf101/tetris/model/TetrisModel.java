@@ -99,4 +99,10 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         glueTetrominoToBoard(tetromino, tetrisBoard);
     }
 
+    @Override
+    public GameState getGameState() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getGameState'");
+    }
+
 }
