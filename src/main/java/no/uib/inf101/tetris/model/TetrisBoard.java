@@ -3,10 +3,7 @@ package no.uib.inf101.tetris.model;
 import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
 
-/**
- * Objects in this class represents a tetris board.
- */
-
+/** Objects in this class represents a tetris board. */
 public class TetrisBoard extends Grid<Character> {
 
     /**

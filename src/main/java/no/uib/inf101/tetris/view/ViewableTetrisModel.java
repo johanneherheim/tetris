@@ -3,6 +3,7 @@ package no.uib.inf101.tetris.view;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
 
+/** This interface has all the methods that a tetrismodel should have */
 public interface ViewableTetrisModel {
     /**
      * Gives us the size of the tetrisboard,

@@ -10,6 +10,7 @@ import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
 
+/** Objects in this class represents tetromino-bricks on the board. */
 public class Tetromino implements Iterable<GridCell<Character>> {
     /**
      * The type of tetromino saved as a character.
@@ -126,6 +127,14 @@ public class Tetromino implements Iterable<GridCell<Character>> {
         return shiftedBy(-1, col);
     }
 
+    /**
+     * Method for checking if a tetromino is movable to a given position.
+     * 
+     * @param grid     the tetris-board
+     * @param deltaRow move in y-direction
+     * @param deltaCol move in x-direction
+     * @return True or false
+     */
     public boolean isMovableTo(Grid<Character> grid, int deltaRow, int deltaCol) {
         Tetromino candidate = shiftedBy(deltaRow, deltaCol);
         int startRow = candidate.cellPosition.row();
@@ -185,6 +194,13 @@ public class Tetromino implements Iterable<GridCell<Character>> {
     public int hashCode() {
         return Objects.hash(type, Arrays.deepHashCode(shape), cellPosition);
     }
+
+    /**
+     * A method for checking if a tetromino is rotatable.
+     * 
+     * @param grid The tetris-board.
+     * @return True or false
+     */
 
     public boolean isRotatable(Grid<Character> grid) {
         Tetromino candidate = rotate();

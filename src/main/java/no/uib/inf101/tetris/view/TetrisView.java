@@ -15,7 +15,11 @@ import no.uib.inf101.grid.GridCell;
  * This class has the methods that draws what the user sees in the game-window.
  */
 public class TetrisView extends JPanel {
+
+    /** The model for the Tetris-game */
     ViewableTetrisModel tetrisModel;
+
+    /** The colortheme for the Tetris-game */
     private ColorTheme colorTheme;
 
     /** The margin between the cells on the board */
@@ -25,11 +29,13 @@ public class TetrisView extends JPanel {
     private static final double MARGIN = 15;
 
     /**
-     * Constructor for TetrisView
+     * Constructor for TetrisView.
+     * It saves the tetrismodel in a variable and sets the colortheme to default.
+     * The background-color and windowsize is set, and the window is also set to
+     * listen to keyboard.
      * 
      * @param tetrisModel The Tetris-model
      */
-
     public TetrisView(ViewableTetrisModel tetrisModel) {
         this.tetrisModel = tetrisModel;
         this.colorTheme = new DefaultColorTheme();
@@ -46,9 +52,9 @@ public class TetrisView extends JPanel {
     }
 
     /**
-     * Draws the game-elements
+     * Draws the game-elements.
      * 
-     * @param g2 the graphics object
+     * @param g2 The graphics object
      */
 
     private void drawGame(Graphics2D g2) {
@@ -64,12 +70,12 @@ public class TetrisView extends JPanel {
     }
 
     /**
-     * Draws the cells
+     * Draws the cells in a given grid.
      * 
-     * @param g2         the graphics object
-     * @param grid       the grid
-     * @param converter  the cellPosition -> pixel converter
-     * @param colorTheme the color theme
+     * @param g2         The graphics object
+     * @param grid       The grid
+     * @param converter  The cellPosition -> pixel converter
+     * @param colorTheme The color theme
      */
     private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid,
             CellPositionToPixelConverter converter, Color color) {

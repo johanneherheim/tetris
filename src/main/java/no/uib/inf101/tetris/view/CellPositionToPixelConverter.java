@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.GridDimension;
 
+/** Class with methods for getting the pixels to a cell in a grid. */
 public class CellPositionToPixelConverter {
 
     /** The rectangle that the grid is drawn in. */
