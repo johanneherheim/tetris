@@ -4,4 +4,6 @@ public interface ControllableTetrisModel {
     boolean moveTetromino(int deltaRow, int deltaCol);
 
     boolean rotateTetromino();
+
+    void dropTetromino();
 }
