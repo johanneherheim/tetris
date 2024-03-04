@@ -15,8 +15,14 @@ public class DefaultColorTheme implements ColorTheme {
             case 'y' -> Color.YELLOW;
             case 'b' -> Color.BLUE;
             case '-' -> Color.BLACK;
-            default -> throw new IllegalArgumentException(
-                    "No available color for '" + c + "'");
+            case 'T' -> Color.MAGENTA;
+            case 'O' -> Color.ORANGE;
+            case 'I' -> Color.CYAN;
+            case 'J' -> Color.PINK;
+            case 'L' -> Color.GRAY;
+            case 'S' -> Color.DARK_GRAY;
+            case 'Z' -> Color.LIGHT_GRAY;
+            default -> throw new IllegalArgumentException("No available color for '" + c + "'");
         };
         return color;
 
