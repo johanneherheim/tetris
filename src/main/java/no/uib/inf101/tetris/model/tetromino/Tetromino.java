@@ -243,4 +243,31 @@ public class Tetromino implements Iterable<GridCell<Character>> {
         }
         return new Tetromino(type, newShape, cellPosition);
     }
+
+    /**
+     * Get the position of the tetromino.
+     * 
+     * @return the position of the tetromino.
+     */
+    public CellPosition getCellPosition() {
+        return cellPosition;
+    }
+
+    /**
+     * Get the type of the tetromino.
+     * 
+     * @return the type of the tetromino.
+     */
+    public char getType() {
+        return type;
+    }
+
+    /**
+     * Get the shape of the tetromino.
+     * 
+     * @return the shape of the tetromino.
+     */
+    public boolean[][] getShape() {
+        return shape;
+    }
 }
