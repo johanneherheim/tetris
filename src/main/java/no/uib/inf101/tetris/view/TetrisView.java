@@ -2,6 +2,7 @@ package no.uib.inf101.tetris.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -10,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 
 import no.uib.inf101.grid.GridCell;
+import no.uib.inf101.tetris.model.GameState;
 
 /**
  * This class has the methods that draws what the user sees in the game-window.
@@ -40,7 +42,9 @@ public class TetrisView extends JPanel {
         this.tetrisModel = tetrisModel;
         this.colorTheme = new DefaultColorTheme();
         this.setBackground(colorTheme.getFrameColor());
-        this.setFocusable(true);
+        if (tetrisModel.getGameState() == GameState.ACTIVE_GAME) {
+            this.setFocusable(true);
+        }
         this.setPreferredSize(new Dimension(400, 800));
     }
 
@@ -48,7 +52,11 @@ public class TetrisView extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        drawGame(g2);
+        if (tetrisModel.getGameState() == GameState.GAME_OVER) {
+            drawGameOver(g2);
+        } else {
+            drawGame(g2);
+        }
     }
 
     /**
@@ -86,5 +94,15 @@ public class TetrisView extends JPanel {
             g2.setColor(color);
             g2.fill(tile);
         }
+    }
+
+    private void drawGameOver(Graphics2D g2) {
+        double width = Math.min(getWidth(), getHeight() / 2);
+        Rectangle2D background = new Rectangle.Double(MARGIN, MARGIN, width - 2 * MARGIN, 2 * width - 2 * MARGIN);
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(background);
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        Inf101Graphics.drawCenteredString(g2, "Game over!", background);
     }
 }
