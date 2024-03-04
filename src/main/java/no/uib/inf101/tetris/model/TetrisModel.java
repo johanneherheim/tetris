@@ -23,6 +23,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     TetrominoFactory randomTetromino;
     Tetromino tetromino;
 
+    GameState gameState;
+
     /**
      * Class constructor
      * 
@@ -33,6 +35,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         this.tetrisBoard = tetrisBoard;
         this.randomTetromino = randomTetromino;
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
+        gameState = GameState.ACTIVE_GAME;
     }
 
     @Override
@@ -52,7 +55,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     @Override
     public boolean moveTetromino(int deltaRow, int deltaCol) {
-        if (tetromino.isMovableTo(tetrisBoard, deltaRow, deltaCol)) {
+        Tetromino newTetromino = tetromino.shiftedBy(deltaRow, deltaCol);
+        if (tetromino.isLegalMove(tetrisBoard, newTetromino)) {
             tetromino = tetromino.shiftedBy(deltaRow, deltaCol);
             return true;
         }
@@ -69,8 +73,14 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     }
 
-    Tetromino getNewFallingTetromino() {
-        return tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
+    public boolean getNewFallingTetromino() {
+        tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
+        if (!tetromino.isLegalMove(tetrisBoard, tetromino)) {
+            gameState = GameState.GAME_OVER;
+            return false;
+        }
+        tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
+        return true;
     }
 
     void glueTetrominoToBoard(Tetromino tetromino, TetrisBoard tetrisBoard) {
@@ -101,8 +111,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     @Override
     public GameState getGameState() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGameState'");
+        return gameState;
     }
 
 }
