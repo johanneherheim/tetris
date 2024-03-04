@@ -135,16 +135,15 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      * @param deltaCol move in x-direction
      * @return True or false
      */
-    public boolean isMovableTo(Grid<Character> grid, int deltaRow, int deltaCol) {
-        Tetromino candidate = shiftedBy(deltaRow, deltaCol);
-        int startRow = candidate.cellPosition.row();
-        int startCol = candidate.cellPosition.col();
+    public boolean isLegalMove(Grid<Character> grid, Tetromino tetrominoCandidate) {
+        int startRow = tetrominoCandidate.cellPosition.row();
+        int startCol = tetrominoCandidate.cellPosition.col();
 
         // saves all the positions to the tetromino relative to the grid
         ArrayList<CellPosition> tetrominoPositions = new ArrayList<>();
-        for (int row = 0; row < candidate.shape.length; row++) {
-            for (int col = 0; col < candidate.shape[0].length; col++) {
-                if (candidate.shape[row][col]) {
+        for (int row = 0; row < tetrominoCandidate.shape.length; row++) {
+            for (int col = 0; col < tetrominoCandidate.shape[0].length; col++) {
+                if (tetrominoCandidate.shape[row][col]) {
                     tetrominoPositions.add(new CellPosition(row + startRow, col + startCol));
                 }
             }
