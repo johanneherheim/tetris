@@ -11,11 +11,24 @@ import javax.swing.JPanel;
 
 import no.uib.inf101.grid.GridCell;
 
+/**
+ * This class has the methods that draws what the user sees in the game-window.
+ */
 public class TetrisView extends JPanel {
     ViewableTetrisModel tetrisModel;
     private ColorTheme colorTheme;
+
+    /** The margin between the cells on the board */
     private static final double TETRISINNERMARGIN = 1;
+
+    /** The margin around all the elements in the game */
     private static final double MARGIN = 15;
+
+    /**
+     * Constructor for TetrisView
+     * 
+     * @param tetrisModel The Tetris-model
+     */
 
     public TetrisView(ViewableTetrisModel tetrisModel) {
         this.tetrisModel = tetrisModel;
@@ -55,7 +68,7 @@ public class TetrisView extends JPanel {
      * 
      * @param g2         the graphics object
      * @param grid       the grid
-     * @param converter  the cell position to pixel converter
+     * @param converter  the cellPosition -> pixel converter
      * @param colorTheme the color theme
      */
     private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid,
