@@ -2,6 +2,7 @@ package no.uib.inf101.tetris.view;
 
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
+import no.uib.inf101.tetris.model.GameState;
 
 /** This interface has all the methods that a tetrismodel should have */
 public interface ViewableTetrisModel {
@@ -29,4 +30,12 @@ public interface ViewableTetrisModel {
      */
 
     Iterable<GridCell<Character>> fallingTetromino();
+
+    /**
+     * Gives us the current gamestate
+     * 
+     * @return the current gamestate
+     */
+
+    GameState getGameState();
 }
