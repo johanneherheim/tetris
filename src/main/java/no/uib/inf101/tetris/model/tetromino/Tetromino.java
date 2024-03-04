@@ -203,33 +203,26 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      */
 
     public boolean isRotatable(Grid<Character> grid) {
-        Tetromino candidate = rotate();
-        int startRow = candidate.cellPosition.row();
-        int startCol = candidate.cellPosition.col();
+        ArrayList<CellPosition> availablePositions = new ArrayList<CellPosition>();
 
-        // saves all the positions to the tetromino relative to the grid
-        ArrayList<CellPosition> tetrominoPositions = new ArrayList<CellPosition>();
-        for (int row = 0; row < candidate.shape.length; row++) {
-            for (int col = 0; col < candidate.shape[0].length; col++) {
-                if (candidate.shape[row][col]) {
-                    tetrominoPositions.add(new CellPosition(row + startRow, col + startCol));
+        // saves all the available positions in the grid in a list
+        for (int gridRow = 0; gridRow < grid.rows(); gridRow++) {
+            for (int gridCol = 0; gridCol < grid.cols(); gridCol++) {
+                if (grid.get(new CellPosition(gridRow, gridCol)).equals('-')) {
+                    availablePositions.add(new CellPosition(gridRow, gridCol));
                 }
             }
         }
 
-        // for all positions in the grid
-        for (int gridRow = 0; gridRow < grid.rows(); gridRow++) {
-            for (int gridCol = 0; gridCol < grid.cols(); gridCol++) {
+        Tetromino candidate = rotate();
+        int startRow = candidate.cellPosition.row();
+        int startCol = candidate.cellPosition.col();
 
-                // if the position is part of the tetromino
-                if (tetrominoPositions.contains(new CellPosition(gridRow, gridCol))) {
-
-                    // if the cell is not on the grid or is not empty
-                    if (!grid.positionIsOnGrid(new CellPosition(gridRow, gridCol))
-                            || !grid.get(new CellPosition(gridRow, gridCol)).equals('-')) {
-                        return false;
-                    }
-
+        // check if the positions of the rotated tetromino is available
+        for (int row = 0; row < candidate.shape.length; row++) {
+            for (int col = 0; col < candidate.shape[0].length; col++) {
+                if (!availablePositions.contains(new CellPosition(startRow + row, startCol + col))) {
+                    return false;
                 }
             }
         }
