@@ -1,5 +1,8 @@
 package no.uib.inf101.tetris.model;
 
+import java.util.ArrayList;
+
+import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
@@ -64,6 +67,36 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         }
         return false;
 
+    }
+
+    Tetromino getNewFallingTetromino() {
+        return tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
+    }
+
+    void glueTetrominoToBoard(Tetromino tetromino, TetrisBoard tetrisBoard) {
+        int startRow = tetromino.getCellPosition().row();
+        int startCol = tetromino.getCellPosition().col();
+
+        // saves all the positions to the tetromino relative to the grid
+        ArrayList<CellPosition> tetrominoPositions = new ArrayList<>();
+        for (int row = 0; row < tetromino.getShape().length; row++) {
+            for (int col = 0; col < tetromino.getShape()[0].length; col++) {
+                if (tetromino.getShape()[row][col]) {
+                    tetrominoPositions.add(new CellPosition(row + startRow, col + startCol));
+                }
+            }
+        }
+        for (CellPosition tetrominoPosition : tetrominoPositions) {
+            tetrisBoard.set(tetrominoPosition, tetromino.getType());
+        }
+        getNewFallingTetromino();
+    }
+
+    @Override
+    public void dropTetromino() {
+        while (moveTetromino(1, 0)) {
+        }
+        glueTetrominoToBoard(tetromino, tetrisBoard);
     }
 
 }
