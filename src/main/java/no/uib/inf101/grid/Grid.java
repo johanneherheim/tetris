@@ -67,10 +67,10 @@ public class Grid<E> implements IGrid<E> {
         ArrayList<GridCell<E>> grid = new ArrayList<GridCell<E>>(cells);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                cells.add(new GridCell<E>(new CellPosition(i, j), null));
+                CellPosition pos = new CellPosition(i, j);
+                cells.add(new GridCell<E>(pos, get(pos)));
             }
         }
-
         return grid.iterator();
     }
 

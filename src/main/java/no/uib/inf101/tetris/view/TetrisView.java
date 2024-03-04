@@ -65,8 +65,8 @@ public class TetrisView extends JPanel {
 
         CellPositionToPixelConverter cellInfo = new CellPositionToPixelConverter(background,
                 tetrisModel.getDimension(), TETRISINNERMARGIN);
-        drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, Color.GRAY);
-        drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, Color.PINK);
+        drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme);
+        drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme);
     }
 
     /**
@@ -78,14 +78,13 @@ public class TetrisView extends JPanel {
      * @param colorTheme The color theme
      */
     private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid,
-            CellPositionToPixelConverter converter, Color color) {
+            CellPositionToPixelConverter converter, ColorTheme colorTheme) {
         for (GridCell<Character> gridCell : grid) {
+
             Rectangle2D tile = converter.getBoundsForCell(gridCell.pos());
-            // Color color = ct.getCellColor(gridCell.value());
-            // g2.setColor(color);
+            Color color = colorTheme.getCellColor(gridCell.value());
             g2.setColor(color);
             g2.fill(tile);
-
         }
     }
 }
