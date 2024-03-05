@@ -32,4 +32,12 @@ public interface ControllableTetrisModel {
      */
 
     GameState getGameState();
+
+    /**
+     * Gives us the time between each tick
+     * 
+     * @return milliseconds between each tick
+     */
+    Integer timer();
+
 }
