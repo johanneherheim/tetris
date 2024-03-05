@@ -114,9 +114,9 @@ public class TetrisView extends JPanel {
         g2.setColor(colorTheme.getBackgroundColor());
         g2.fill(background);
         g2.setColor(Color.LIGHT_GRAY);
-        g2.setFont(new Font("Arial", Font.BOLD, 30));
-        Inf101Graphics.drawCenteredString(g2, "Velkommen til TETRIS", getWidth() / 2, getHeight() / 2);
-        Inf101Graphics.drawCenteredString(g2, "press s for å starte", getWidth() / 2, getHeight() / 2 + 50);
+        g2.setFont(new Font("Arial", Font.BOLD, (int) (width / 15)));
+        Inf101Graphics.drawCenteredString(g2, "Velkommen til TETRIS", width / 2, width);
+        Inf101Graphics.drawCenteredString(g2, "press s for å starte", width / 2, width + 50);
     }
 
 }
