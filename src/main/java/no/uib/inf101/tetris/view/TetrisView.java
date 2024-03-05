@@ -56,6 +56,8 @@ public class TetrisView extends JPanel {
             drawGameOver(g2);
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
             drawWelcomeScreen(g2);
+        } else if (tetrisModel.getGameState() == GameState.CHOOSE_DIFFICULTY) {
+            drawChooseDifficulty(g2);
         } else {
             drawGame(g2);
         }
@@ -117,6 +119,17 @@ public class TetrisView extends JPanel {
         g2.setFont(new Font("Arial", Font.BOLD, (int) (width / 15)));
         Inf101Graphics.drawCenteredString(g2, "Velkommen til TETRIS", width / 2, width);
         Inf101Graphics.drawCenteredString(g2, "press s for å starte", width / 2, width + 50);
+    }
+
+    private void drawChooseDifficulty(Graphics2D g2) {
+        double width = Math.min(getWidth(), getHeight() / 2);
+        Rectangle2D background = new Rectangle.Double(MARGIN, MARGIN, width - 2 * MARGIN, 2 * width - 2 * MARGIN);
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(background);
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.setFont(new Font("Arial", Font.BOLD, (int) (width / 15)));
+        Inf101Graphics.drawCenteredString(g2, "press 1 for lett, 2 for medium", width / 2, width);
+        Inf101Graphics.drawCenteredString(g2, "OG 3 FOR VANSKELIG", width / 2, width + 50);
     }
 
 }

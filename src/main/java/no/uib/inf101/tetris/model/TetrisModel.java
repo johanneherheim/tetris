@@ -117,11 +117,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public Integer delay() {
-        return 500;
-    }
-
-    @Override
     public void clockTick() {
         Tetromino newTetromino = tetromino.shiftedBy(1, 0);
         if (tetromino.isLegalMove(tetrisBoard, newTetromino)) {
@@ -135,5 +130,16 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     public void setGameState(GameState activeGame) {
         gameState = activeGame;
 
+    }
+
+    @Override
+    public Integer delay(int difficulty) {
+        if (difficulty == 2) {
+            return 400;
+        } else if (difficulty == 3) {
+            return 200;
+        } else {
+            return 1000;
+        }
     }
 }

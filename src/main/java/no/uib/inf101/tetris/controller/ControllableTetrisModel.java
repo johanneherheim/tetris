@@ -38,7 +38,7 @@ public interface ControllableTetrisModel {
      * 
      * @return milliseconds between each tick
      */
-    Integer delay();
+    Integer delay(int difficulty);
 
     /**
      * Gets called each time the clock ticks

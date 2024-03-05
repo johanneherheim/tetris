@@ -12,13 +12,14 @@ public class TetrisController implements java.awt.event.KeyListener {
     ControllableTetrisModel controllableTetrisModel;
     TetrisView tetrisView;
     Timer timer;
+    Integer difficulty;
 
     public TetrisController(ControllableTetrisModel controllableTetrisModel, TetrisView tetrisView) {
         this.controllableTetrisModel = controllableTetrisModel;
         this.tetrisView = tetrisView;
         tetrisView.addKeyListener(this);
         tetrisView.setFocusable(true);
-        this.timer = new Timer(controllableTetrisModel.delay(), this::clockTick);
+        this.timer = new Timer(controllableTetrisModel.delay(1), this::clockTick);
         timer.start();
 
     }
@@ -44,7 +45,19 @@ public class TetrisController implements java.awt.event.KeyListener {
             controllableTetrisModel.dropTetromino();
         } else if (e.getKeyCode() == KeyEvent.VK_S
                 && controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
-            controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
+            controllableTetrisModel.setGameState(GameState.CHOOSE_DIFFICULTY);
+        } else if (controllableTetrisModel.getGameState() == GameState.CHOOSE_DIFFICULTY) {
+            if (e.getKeyCode() == KeyEvent.VK_1) {
+                difficulty = 1;
+                controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
+            } else if (e.getKeyCode() == KeyEvent.VK_2) {
+                difficulty = 2;
+                controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
+            } else if (e.getKeyCode() == KeyEvent.VK_3) {
+                difficulty = 3;
+                controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
+            }
+
         }
         tetrisView.repaint();
     }
@@ -63,7 +76,7 @@ public class TetrisController implements java.awt.event.KeyListener {
     }
 
     void getDelay() {
-        timer.setDelay(controllableTetrisModel.delay());
-        timer.setInitialDelay(controllableTetrisModel.delay());
+        timer.setDelay(controllableTetrisModel.delay(difficulty));
+        timer.setInitialDelay(controllableTetrisModel.delay(difficulty));
     }
 }
