@@ -115,4 +115,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         return gameState;
     }
 
+    @Override
+    public Integer timer() {
+        return 1000;
+    }
 }
