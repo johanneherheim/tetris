@@ -54,6 +54,8 @@ public class TetrisView extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         if (tetrisModel.getGameState() == GameState.GAME_OVER) {
             drawGameOver(g2);
+        } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
+            drawWelcomeScreen(g2);
         } else {
             drawGame(g2);
         }
@@ -105,4 +107,15 @@ public class TetrisView extends JPanel {
         g2.setFont(new Font("Arial", Font.BOLD, 30));
         Inf101Graphics.drawCenteredString(g2, "Game over!", background);
     }
+
+    private void drawWelcomeScreen(Graphics2D g2) {
+        double width = Math.min(getWidth(), getHeight() / 2);
+        Rectangle2D background = new Rectangle.Double(MARGIN, MARGIN, width - 2 * MARGIN, 2 * width - 2 * MARGIN);
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(background);
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.setFont(new Font("Arial", Font.BOLD, 30));
+        Inf101Graphics.drawCenteredString(g2, "Velkommen til TETRIS", background);
+    }
+
 }
