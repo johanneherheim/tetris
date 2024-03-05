@@ -29,6 +29,15 @@ public class TetrisView extends JPanel {
     /** The margin around all the elements in the game */
     private static final double MARGIN = 15;
 
+    /** The welcome message */
+    private static final String[] welcomeMessage = { "Velkommen til tetris", "trykk s for å starte" };
+
+    /** The message for choosing difficulty */
+    private static final String[] chooseDifficultyMessage = { "press 1 for lett, 2 for medium", "OG 3 FOR VANSKELIG" };
+
+    /** The game over message */
+    private static final String[] gameOverMessage = { "Game over!" };
+
     /**
      * Constructor for TetrisView.
      * It saves the tetrismodel in a variable and sets the colortheme to default.
@@ -52,16 +61,22 @@ public class TetrisView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         if (tetrisModel.getGameState() == GameState.GAME_OVER) {
-            drawGameOver(g2);
+            drawCanvasWithText(g2, gameOverMessage, colorTheme.getTextColor(), 40);
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
-            drawWelcomeScreen(g2);
+            drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 30);
         } else if (tetrisModel.getGameState() == GameState.CHOOSE_DIFFICULTY) {
-            drawChooseDifficulty(g2);
+            drawCanvasWithText(g2, chooseDifficultyMessage, colorTheme.getTextColor(), 20);
+            ;
         } else {
             drawGame(g2);
         }
     }
 
+    /**
+     * Returns the canvas for the board.
+     * 
+     * @return The canvas
+     */
     private Rectangle2D getCanvas() {
         double maxSize = Math.min(this.getWidth(), this.getHeight() / 2);
 
@@ -125,35 +140,27 @@ public class TetrisView extends JPanel {
         }
     }
 
-    private void drawGameOver(Graphics2D g2) {
+    /**
+     * Draws the canvas with the given text over the tetris-board.
+     * 
+     * @param g2          The graphics object
+     * @param linesOfText The text to be drawn in a list of strings
+     * @param textColor   The color of the text
+     * @param textSize    The size of the text
+     */
+    private void drawCanvasWithText(Graphics2D g2, String[] linesOfText, Color textColor, int textSize) {
+        int lineSpace = 50;
+        int x = getWidth() / 2;
+        int y = getHeight() / 2;
         Rectangle2D canvas = getCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
         g2.fill(canvas);
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.setFont(new Font("Arial", Font.BOLD, 30));
-        Inf101Graphics.drawCenteredString(g2, "Game over!", canvas);
-    }
+        g2.setColor(textColor);
+        g2.setFont(new Font("Arial", Font.BOLD, textSize));
+        for (int i = 0; i < linesOfText.length; i++) {
+            Inf101Graphics.drawCenteredString(g2, linesOfText[i], x, y + lineSpace * i);
 
-    private void drawWelcomeScreen(Graphics2D g2) {
-        double width = Math.min(getWidth(), getHeight() / 2);
-        Rectangle2D canvas = getCanvas();
-        g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(canvas);
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.setFont(new Font("Arial", Font.BOLD, (int) (width / 15)));
-        Inf101Graphics.drawCenteredString(g2, "Velkommen til TETRIS", getWidth() / 2, getHeight() / 2);
-        Inf101Graphics.drawCenteredString(g2, "press s for å starte", getWidth() / 2, getHeight() / 2 + 50);
-    }
-
-    private void drawChooseDifficulty(Graphics2D g2) {
-        double width = Math.min(getWidth(), getHeight() / 2);
-        Rectangle2D canvas = getCanvas();
-        g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(canvas);
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.setFont(new Font("Arial", Font.BOLD, (int) (width / 15)));
-        Inf101Graphics.drawCenteredString(g2, "press 1 for lett, 2 for medium", getWidth() / 2, getHeight() / 2);
-        Inf101Graphics.drawCenteredString(g2, "OG 3 FOR VANSKELIG", getWidth() / 2, getHeight() / 2 + 50);
+        }
     }
 
 }
