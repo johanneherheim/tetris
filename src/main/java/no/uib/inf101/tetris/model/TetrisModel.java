@@ -107,6 +107,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         while (moveTetromino(1, 0)) {
         }
         glueTetrominoToBoard(tetromino, tetrisBoard);
+        tetrisBoard.removeFullRows();
     }
 
     @Override
