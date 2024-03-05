@@ -38,6 +38,13 @@ public interface ControllableTetrisModel {
      * 
      * @return milliseconds between each tick
      */
-    Integer timer();
+    Integer delay();
+
+    /**
+     * Gets called each time the clock ticks
+     * 
+     * @param timer
+     */
+    void clockTick();
 
 }
