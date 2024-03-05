@@ -10,18 +10,15 @@ public class DefaultColorTheme implements ColorTheme {
     @Override
     public Color getCellColor(char c) {
         Color color = switch (c) {
-            case 'r' -> Color.RED;
-            case 'g' -> Color.GREEN;
-            case 'y' -> Color.YELLOW;
-            case 'b' -> Color.BLUE;
-            case '-' -> Color.BLACK;
-            case 'T' -> Color.MAGENTA;
-            case 'O' -> Color.ORANGE;
-            case 'I' -> Color.CYAN;
-            case 'J' -> Color.PINK;
-            case 'L' -> Color.GRAY;
-            case 'S' -> Color.DARK_GRAY;
-            case 'Z' -> Color.LIGHT_GRAY;
+            case '-' -> Color.DARK_GRAY;
+            case 'T' -> new Color(255, 76, 97); // Lighter red
+            case 'O' -> new Color(255, 167, 96); // Lighter orange
+            case 'I' -> new Color(255, 237, 100); // Lighter yellow
+            case 'J' -> new Color(90, 192, 158); // Lighter greenish-blue
+            case 'L' -> new Color(0, 194, 255); // Lighter sky blue
+            case 'S' -> new Color(165, 122, 220); // Lighter purple
+            case 'Z' -> new Color(255, 133, 186); // Lighter pink
+
             default -> throw new IllegalArgumentException("No available color for '" + c + "'");
         };
         return color;
