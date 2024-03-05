@@ -8,7 +8,7 @@ import no.uib.inf101.tetris.model.TetrisModel;
 import no.uib.inf101.tetris.model.tetromino.RandomTetrominoFactory;
 import no.uib.inf101.tetris.model.tetromino.TetrominoFactory;
 import no.uib.inf101.tetris.view.TetrisView;
-import no.uib.inf101.grid.CellPosition;
+// import no.uib.inf101.grid.CellPosition;
 
 public class TetrisMain {
   public static final String WINDOW_TITLE = "INF101 Tetris";
@@ -18,10 +18,10 @@ public class TetrisMain {
     int cols = 10;
 
     TetrisBoard tetrisBoard = new TetrisBoard(rows, cols);
-    tetrisBoard.set(new CellPosition(0, 0), 'g');
-    tetrisBoard.set(new CellPosition(0, cols - 1), 'y');
-    tetrisBoard.set(new CellPosition(rows - 1, 0), 'r');
-    tetrisBoard.set(new CellPosition(rows - 1, cols - 1), 'b');
+    // tetrisBoard.set(new CellPosition(0, 0), 'g');
+    // tetrisBoard.set(new CellPosition(0, cols - 1), 'y');
+    // tetrisBoard.set(new CellPosition(rows - 1, 0), 'r');
+    // tetrisBoard.set(new CellPosition(rows - 1, cols - 1), 'b');
 
     TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
 
