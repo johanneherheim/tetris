@@ -99,6 +99,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         for (CellPosition tetrominoPosition : tetrominoPositions) {
             tetrisBoard.set(tetrominoPosition, tetromino.getType());
         }
+        tetrisBoard.removeFullRows();
         getNewFallingTetromino();
     }
 
@@ -116,7 +117,18 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public Integer timer() {
-        return 1000;
+    public Integer delay() {
+        return 500;
     }
+
+    @Override
+    public void clockTick() {
+        Tetromino newTetromino = tetromino.shiftedBy(1, 0);
+        if (tetromino.isLegalMove(tetrisBoard, newTetromino)) {
+            tetromino = tetromino.shiftedBy(1, 0);
+        } else {
+            glueTetrominoToBoard(tetromino, tetrisBoard);
+        }
+    }
+
 }

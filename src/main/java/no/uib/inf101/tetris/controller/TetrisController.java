@@ -1,18 +1,25 @@
 package no.uib.inf101.tetris.controller;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Timer;
+
+import no.uib.inf101.tetris.model.GameState;
 import no.uib.inf101.tetris.view.TetrisView;
 
 public class TetrisController implements java.awt.event.KeyListener {
     ControllableTetrisModel controllableTetrisModel;
     TetrisView tetrisView;
+    Timer timer;
 
     public TetrisController(ControllableTetrisModel controllableTetrisModel, TetrisView tetrisView) {
         this.controllableTetrisModel = controllableTetrisModel;
         this.tetrisView = tetrisView;
         tetrisView.addKeyListener(this);
         tetrisView.setFocusable(true);
+        this.timer = new Timer(controllableTetrisModel.delay(), this::clockTick);
+        timer.start();
 
     }
 
@@ -30,6 +37,7 @@ public class TetrisController implements java.awt.event.KeyListener {
             controllableTetrisModel.moveTetromino(0, 1);
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             controllableTetrisModel.moveTetromino(1, 0);
+            timer.restart();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             controllableTetrisModel.rotateTetromino();
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -40,8 +48,19 @@ public class TetrisController implements java.awt.event.KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 
+    void clockTick(ActionEvent e) {
+        if (controllableTetrisModel.getGameState() == GameState.ACTIVE_GAME) {
+            controllableTetrisModel.clockTick();
+            getDelay();
+            tetrisView.repaint();
+        }
+    }
+
+    void getDelay() {
+        timer.setDelay(controllableTetrisModel.delay());
+        timer.setInitialDelay(controllableTetrisModel.delay());
+    }
 }
