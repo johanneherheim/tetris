@@ -1,5 +1,6 @@
 package no.uib.inf101.tetris.model;
 
+import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
 
@@ -34,5 +35,47 @@ public class TetrisBoard extends Grid<Character> {
             count += 1;
         }
         return board.substring(0, board.length() - 1);
+    }
+
+    boolean isRowFull(int row) {
+        for (int col = 0; col < this.cols(); col++) {
+            if (this.get(new CellPosition(row, col)) == '-') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    TetrisBoard removeFullRows() {
+        TetrisBoard newBoard = this;
+        // Opprett tellevariabel for å telle hvor mange rader som blir forkastet
+        int a = this.rows() - 1;
+        int b = this.rows() - 1;
+
+        // så lenge a er en rad på brettet
+        while (a >= 0) {
+
+            // så lenge b er en rad på brettet og er full
+            while (b >= 0 && newBoard.isRowFull(b)) {
+                b -= 1;
+            }
+
+            // hvis b fremdeles er på brettet
+            if (b >= 0) {
+                // kopier rekken b står ved inn i rekken a står ved
+                for (int col = 0; col < newBoard.cols(); col++) {
+                    newBoard.set(new CellPosition(a, col), newBoard.get(new CellPosition(b, col)));
+                }
+                // viss ingen b, fyll rekken a står ved med blanke ruter
+            } else {
+                for (int col = 0; col < newBoard.cols(); col++) {
+                    newBoard.set(new CellPosition(a, col), '-');
+                }
+            }
+            a -= 1;
+            b -= 1;
+        }
+
+        return newBoard;
     }
 }
