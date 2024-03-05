@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
@@ -45,7 +44,7 @@ public class TetrisView extends JPanel {
         if (tetrisModel.getGameState() == GameState.ACTIVE_GAME) {
             this.setFocusable(true);
         }
-        this.setPreferredSize(new Dimension(400, 800));
+        this.setPreferredSize(new Dimension(1000, 800));
     }
 
     @Override
@@ -63,6 +62,23 @@ public class TetrisView extends JPanel {
         }
     }
 
+    private Rectangle2D getCanvas() {
+        double maxSize = Math.min(this.getWidth(), this.getHeight() / 2);
+
+        double width = maxSize;
+        double height = maxSize * 2;
+
+        double x = (this.getWidth() - width) / 2;
+        double y = (this.getHeight() - height) / 2 + MARGIN;
+
+        double boxX = x + MARGIN;
+        double boxY = y + MARGIN;
+        double boxWidth = width - 2 * MARGIN;
+        double boxHeight = height - 4 * MARGIN;
+
+        return new Rectangle2D.Double(boxX, boxY, boxWidth, boxHeight);
+    }
+
     /**
      * Draws the game-elements.
      * 
@@ -70,12 +86,12 @@ public class TetrisView extends JPanel {
      */
 
     private void drawGame(Graphics2D g2) {
-        double width = Math.min(getWidth(), getHeight() / 2);
-        Rectangle2D background = new Rectangle.Double(MARGIN, MARGIN, width - 2 * MARGIN, 2 * width - 2 * MARGIN);
-        g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(background);
 
-        CellPositionToPixelConverter cellInfo = new CellPositionToPixelConverter(background,
+        Rectangle2D canvas = getCanvas();
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(canvas);
+
+        CellPositionToPixelConverter cellInfo = new CellPositionToPixelConverter(canvas,
                 tetrisModel.getDimension(), TETRISINNERMARGIN);
         drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme, true);
         drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme, true);
@@ -110,35 +126,34 @@ public class TetrisView extends JPanel {
     }
 
     private void drawGameOver(Graphics2D g2) {
-        double width = Math.min(getWidth(), getHeight() / 2);
-        Rectangle2D background = new Rectangle.Double(MARGIN, MARGIN, width - 2 * MARGIN, 2 * width - 2 * MARGIN);
+        Rectangle2D canvas = getCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(background);
+        g2.fill(canvas);
         g2.setColor(Color.LIGHT_GRAY);
         g2.setFont(new Font("Arial", Font.BOLD, 30));
-        Inf101Graphics.drawCenteredString(g2, "Game over!", background);
+        Inf101Graphics.drawCenteredString(g2, "Game over!", canvas);
     }
 
     private void drawWelcomeScreen(Graphics2D g2) {
         double width = Math.min(getWidth(), getHeight() / 2);
-        Rectangle2D background = new Rectangle.Double(MARGIN, MARGIN, width - 2 * MARGIN, 2 * width - 2 * MARGIN);
+        Rectangle2D canvas = getCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(background);
+        g2.fill(canvas);
         g2.setColor(Color.LIGHT_GRAY);
         g2.setFont(new Font("Arial", Font.BOLD, (int) (width / 15)));
-        Inf101Graphics.drawCenteredString(g2, "Velkommen til TETRIS", width / 2, width);
-        Inf101Graphics.drawCenteredString(g2, "press s for å starte", width / 2, width + 50);
+        Inf101Graphics.drawCenteredString(g2, "Velkommen til TETRIS", getWidth() / 2, getHeight() / 2);
+        Inf101Graphics.drawCenteredString(g2, "press s for å starte", getWidth() / 2, getHeight() / 2 + 50);
     }
 
     private void drawChooseDifficulty(Graphics2D g2) {
         double width = Math.min(getWidth(), getHeight() / 2);
-        Rectangle2D background = new Rectangle.Double(MARGIN, MARGIN, width - 2 * MARGIN, 2 * width - 2 * MARGIN);
+        Rectangle2D canvas = getCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(background);
+        g2.fill(canvas);
         g2.setColor(Color.LIGHT_GRAY);
         g2.setFont(new Font("Arial", Font.BOLD, (int) (width / 15)));
-        Inf101Graphics.drawCenteredString(g2, "press 1 for lett, 2 for medium", width / 2, width);
-        Inf101Graphics.drawCenteredString(g2, "OG 3 FOR VANSKELIG", width / 2, width + 50);
+        Inf101Graphics.drawCenteredString(g2, "press 1 for lett, 2 for medium", getWidth() / 2, getHeight() / 2);
+        Inf101Graphics.drawCenteredString(g2, "OG 3 FOR VANSKELIG", getWidth() / 2, getHeight() / 2 + 50);
     }
 
 }
