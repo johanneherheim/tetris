@@ -32,17 +32,19 @@ public class TetrisController implements java.awt.event.KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            controllableTetrisModel.moveTetromino(0, -1);
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            controllableTetrisModel.moveTetromino(0, 1);
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            controllableTetrisModel.moveTetromino(1, 0);
-            timer.restart();
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            controllableTetrisModel.rotateTetromino();
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            controllableTetrisModel.dropTetromino();
+        if (controllableTetrisModel.getGameState() == GameState.ACTIVE_GAME) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                controllableTetrisModel.moveTetromino(0, -1);
+            } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                controllableTetrisModel.moveTetromino(0, 1);
+            } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                controllableTetrisModel.moveTetromino(1, 0);
+                timer.restart();
+            } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+                controllableTetrisModel.rotateTetromino();
+            } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                controllableTetrisModel.dropTetromino();
+            }
         } else if (e.getKeyCode() == KeyEvent.VK_S
                 && controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
             controllableTetrisModel.setGameState(GameState.CHOOSE_DIFFICULTY);
