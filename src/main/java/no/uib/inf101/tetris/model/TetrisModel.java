@@ -23,7 +23,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     TetrominoFactory randomTetromino;
     Tetromino tetromino;
 
-    GameState gameState;
+    public GameState gameState;
 
     /**
      * Class constructor
@@ -35,7 +35,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         this.tetrisBoard = tetrisBoard;
         this.randomTetromino = randomTetromino;
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
-        gameState = GameState.ACTIVE_GAME;
+        gameState = GameState.WELCOME_SCREEN;
     }
 
     @Override
@@ -131,4 +131,9 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         }
     }
 
+    @Override
+    public void setGameState(GameState activeGame) {
+        gameState = activeGame;
+
+    }
 }

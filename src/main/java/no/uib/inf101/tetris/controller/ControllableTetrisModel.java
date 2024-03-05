@@ -47,4 +47,6 @@ public interface ControllableTetrisModel {
      */
     void clockTick();
 
+    void setGameState(GameState activeGame);
+
 }
