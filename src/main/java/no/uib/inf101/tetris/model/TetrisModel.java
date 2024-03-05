@@ -54,6 +54,20 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
+    public Iterable<GridCell<Character>> getShadowPosition() {
+        Tetromino futureTetromino = tetromino;
+        while (true) {
+            Tetromino newTetromino = futureTetromino.shiftedBy(1, 0);
+            if (newTetromino.isLegalMove(tetrisBoard, newTetromino)) {
+                futureTetromino = newTetromino;
+            } else {
+                break;
+            }
+        }
+        return futureTetromino;
+    }
+
+    @Override
     public boolean moveTetromino(int deltaRow, int deltaCol) {
         Tetromino newTetromino = tetromino.shiftedBy(deltaRow, deltaCol);
         if (tetromino.isLegalMove(tetrisBoard, newTetromino)) {

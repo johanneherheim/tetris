@@ -77,8 +77,9 @@ public class TetrisView extends JPanel {
 
         CellPositionToPixelConverter cellInfo = new CellPositionToPixelConverter(background,
                 tetrisModel.getDimension(), TETRISINNERMARGIN);
-        drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme);
-        drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme);
+        drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme, true);
+        drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme, true);
+        drawCells(g2, tetrisModel.getShadowPosition(), cellInfo, colorTheme, false);
     }
 
     /**
@@ -88,15 +89,23 @@ public class TetrisView extends JPanel {
      * @param grid       The grid
      * @param converter  The cellPosition -> pixel converter
      * @param colorTheme The color theme
+     * @param isShadow   If the cells are the main cells or just the shadow
      */
     private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid,
-            CellPositionToPixelConverter converter, ColorTheme colorTheme) {
+            CellPositionToPixelConverter converter, ColorTheme colorTheme, boolean isShadow) {
         for (GridCell<Character> gridCell : grid) {
 
             Rectangle2D tile = converter.getBoundsForCell(gridCell.pos());
             Color color = colorTheme.getCellColor(gridCell.value());
-            g2.setColor(color);
-            g2.fill(tile);
+            if (!isShadow) {
+                g2.setColor(color);
+                g2.draw(tile);
+                g2.setColor(new Color(255, 255, 255, 50));
+                g2.fill(tile);
+            } else {
+                g2.setColor(color);
+                g2.fill(tile);
+            }
         }
     }
 

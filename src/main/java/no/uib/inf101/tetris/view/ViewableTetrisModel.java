@@ -32,6 +32,13 @@ public interface ViewableTetrisModel {
     Iterable<GridCell<Character>> fallingTetromino();
 
     /**
+     * Gives us a tetromino for where the current tetromino will land
+     * 
+     * @return the future tetromino
+     */
+    Iterable<GridCell<Character>> getShadowPosition();
+
+    /**
      * Gives us the current gamestate
      * 
      * @return the current gamestate
