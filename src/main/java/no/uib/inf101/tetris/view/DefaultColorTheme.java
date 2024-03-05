@@ -34,4 +34,9 @@ public class DefaultColorTheme implements ColorTheme {
     public Color getBackgroundColor() {
         return Color.WHITE;
     }
+
+    @Override
+    public Color getTextColor() {
+        return Color.DARK_GRAY;
+    }
 }

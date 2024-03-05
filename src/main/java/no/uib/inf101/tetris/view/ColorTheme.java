@@ -25,4 +25,11 @@ public interface ColorTheme {
      * @return Color
      */
     Color getBackgroundColor();
+
+    /**
+     * Get the foreground color from the theme.
+     * 
+     * @return Color
+     */
+    Color getTextColor();
 }
