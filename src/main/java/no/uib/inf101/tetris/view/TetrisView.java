@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.tetris.model.GameState;
+import java.io.File; // Import the File class
+import java.io.FileNotFoundException; // Import this class to handle errors
+import java.util.Scanner; // Import the Scanner class to read text files
 
 /**
  * This class has the methods that draws what the user sees in the game-window.
@@ -64,8 +67,7 @@ public class TetrisView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         if (tetrisModel.getGameState() == GameState.GAME_OVER) {
-            gameOverMessage.add(tetrisModel.getName() + ": " + tetrisModel.getScore());
-            drawCanvasWithText(g2, gameOverMessage, colorTheme.getTextColor(), 40);
+            drawGameOver(g2, gameOverMessage, colorTheme.getTextColor(), 40);
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
             drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 30);
         } else if (tetrisModel.getGameState() == GameState.CHOOSE_DIFFICULTY) {
@@ -154,6 +156,35 @@ public class TetrisView extends JPanel {
      * @param textSize    The size of the text
      */
     private void drawCanvasWithText(Graphics2D g2, ArrayList<String> linesOfText, Color textColor, int textSize) {
+        int lineSpace = 50;
+        int x = getWidth() / 2;
+        int y = getHeight() / 2;
+        Rectangle2D canvas = getCanvas();
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(canvas);
+        g2.setColor(textColor);
+        g2.setFont(new Font("Arial", Font.BOLD, textSize));
+        int count = 1;
+        for (String line : linesOfText) {
+            Inf101Graphics.drawCenteredString(g2, line, x, y + lineSpace * count);
+            count++;
+
+        }
+    }
+
+    private void drawGameOver(Graphics2D g2, ArrayList<String> linesOfText, Color textColor, int textSize) {
+        try {
+            // w3 schools https://www.w3schools.com/java/java_files_read.asp 7. mars 2024
+            File myObj = new File("db/highscores.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine();
+                gameOverMessage.add(line);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Error occrued while trying to read highscores");
+        }
         int lineSpace = 50;
         int x = getWidth() / 2;
         int y = getHeight() / 2;

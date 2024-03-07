@@ -11,6 +11,11 @@ import no.uib.inf101.tetris.model.tetromino.Tetromino;
 import no.uib.inf101.tetris.model.tetromino.TetrominoFactory;
 import no.uib.inf101.tetris.view.ViewableTetrisModel;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter; // Import the FileWriter class
+import java.io.IOException; // Import the IOException class to handle errors
+import java.io.PrintWriter;
+
 /**
  * This class implements the ViewableTetrisModel interface, and is used to give
  * the view access to the model.
@@ -103,7 +108,16 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
         if (!tetromino.isLegalMove(tetrisBoard, tetromino)) {
             gameState = GameState.GAME_OVER;
-            // TODO: write to database
+            // stack overflow
+            // https://stackoverflow.com/questions/1625234/how-to-append-text-to-an-existing-file-in-java
+            // 7. mars 2024
+            try (FileWriter fw = new FileWriter("db/highscores.txt", true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    PrintWriter out = new PrintWriter(bw)) {
+                out.println(name + ": " + score);
+            } catch (IOException e) {
+                System.err.println("An error occurred.");
+            }
             return false;
         }
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
