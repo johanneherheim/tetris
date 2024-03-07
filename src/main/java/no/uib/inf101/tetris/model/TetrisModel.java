@@ -25,6 +25,14 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     public GameState gameState;
 
+    public Integer lineCount;
+
+    public Integer score;
+
+    public Integer level;
+
+    String name;
+
     /**
      * Class constructor
      * 
@@ -36,6 +44,9 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         this.randomTetromino = randomTetromino;
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
         gameState = GameState.WELCOME_SCREEN;
+        lineCount = 0;
+        score = 0;
+        level = 1;
     }
 
     @Override
@@ -91,6 +102,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
         if (!tetromino.isLegalMove(tetrisBoard, tetromino)) {
             gameState = GameState.GAME_OVER;
+            // TODO: write to database
             return false;
         }
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
@@ -113,7 +125,14 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         for (CellPosition tetrominoPosition : tetrominoPositions) {
             tetrisBoard.set(tetrominoPosition, tetromino.getType());
         }
-        tetrisBoard.removeFullRows();
+        Integer linesRemoved = tetrisBoard.removeFullRows();
+        lineCount += linesRemoved;
+        if (linesRemoved > 0) {
+            score += getPoints(linesRemoved) * level;
+            if (lineCount > 0 && lineCount % 10 == 0) {
+                level += 1;
+            }
+        }
         getNewFallingTetromino();
     }
 
@@ -122,7 +141,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         while (moveTetromino(1, 0)) {
         }
         glueTetrominoToBoard(tetromino, tetrisBoard);
-        tetrisBoard.removeFullRows();
     }
 
     @Override
@@ -156,4 +174,35 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
             return 1000;
         }
     }
+
+    @Override
+    public String getLines() {
+        return lineCount.toString();
+    }
+
+    @Override
+    public String getScore() {
+        return score.toString();
+    }
+
+    @Override
+    public Integer getPoints(int numberOfLines) {
+        if (numberOfLines == 0) {
+            return 0;
+        } else if (numberOfLines == 1) {
+            return 100;
+        } else if (numberOfLines == 2) {
+            return 300;
+        } else if (numberOfLines == 3) {
+            return 500;
+        } else {
+            return 800;
+        }
+    }
+
+    @Override
+    public String getLevel() {
+        return level.toString();
+    }
+
 }

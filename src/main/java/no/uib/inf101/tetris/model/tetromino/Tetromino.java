@@ -169,8 +169,8 @@ public class Tetromino implements Iterable<GridCell<Character>> {
         for (int i = 0; i < shape.length; i++) {
             for (int j = 0; j < shape[i].length; j++) {
                 if (shape[i][j]) {
-                    cells.add(new GridCell<Character>(new CellPosition(cellPosition.row() + i, cellPosition.col() + j),
-                            type));
+                    cells.add(new GridCell<Character>(new CellPosition(cellPosition.row() + i,
+                            cellPosition.col() + j), type));
                 }
             }
         }

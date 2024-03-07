@@ -45,4 +45,12 @@ public interface ViewableTetrisModel {
      */
 
     GameState getGameState();
+
+    String getLines();
+
+    String getScore();
+
+    String getLevel();
+
+    Integer getPoints(int numberOfLines);
 }

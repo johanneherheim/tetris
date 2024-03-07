@@ -111,6 +111,7 @@ public class TetrisView extends JPanel {
         drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme, true);
         drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme, true);
         drawCells(g2, tetrisModel.getShadowPosition(), cellInfo, colorTheme, false);
+        drawInfo(g2);
     }
 
     /**
@@ -161,6 +162,20 @@ public class TetrisView extends JPanel {
             Inf101Graphics.drawCenteredString(g2, linesOfText[i], x, y + lineSpace * i);
 
         }
+    }
+
+    private void drawInfo(Graphics2D g2) {
+        Rectangle2D box = new Rectangle2D.Double(MARGIN * 2, MARGIN * 2, this.getWidth() / 6,
+                this.getWidth() / 6);
+        g2.setColor(Color.WHITE);
+        g2.fill(box);
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        Inf101Graphics.drawCenteredString(g2, "Lines: " + tetrisModel.getLines(), box.getCenterX(),
+                box.getCenterY() - box.getWidth() / 4);
+        Inf101Graphics.drawCenteredString(g2, "Score: " + tetrisModel.getScore(), box.getCenterX(), box.getCenterY());
+        Inf101Graphics.drawCenteredString(g2, "Level: " + tetrisModel.getLevel(), box.getCenterX(),
+                box.getCenterY() + box.getWidth() / 4);
     }
 
 }

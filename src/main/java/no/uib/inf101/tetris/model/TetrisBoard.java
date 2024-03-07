@@ -46,11 +46,12 @@ public class TetrisBoard extends Grid<Character> {
         return true;
     }
 
-    TetrisBoard removeFullRows() {
+    Integer removeFullRows() {
         TetrisBoard newBoard = this;
         // Opprett tellevariabel for å telle hvor mange rader som blir forkastet
         int a = this.rows() - 1;
         int b = this.rows() - 1;
+        int lineCount = 0;
 
         // så lenge a er en rad på brettet
         while (a >= 0) {
@@ -58,6 +59,7 @@ public class TetrisBoard extends Grid<Character> {
             // så lenge b er en rad på brettet og er full
             while (b >= 0 && newBoard.isRowFull(b)) {
                 b -= 1;
+                lineCount++;
             }
 
             // hvis b fremdeles er på brettet
@@ -76,6 +78,6 @@ public class TetrisBoard extends Grid<Character> {
             b -= 1;
         }
 
-        return newBoard;
+        return lineCount;
     }
 }
