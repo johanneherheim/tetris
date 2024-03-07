@@ -47,6 +47,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         lineCount = 0;
         score = 0;
         level = 1;
+        name = "Guest";
     }
 
     @Override
@@ -203,6 +204,16 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     @Override
     public String getLevel() {
         return level.toString();
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

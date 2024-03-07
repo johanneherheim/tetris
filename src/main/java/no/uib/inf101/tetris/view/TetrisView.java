@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -30,13 +32,14 @@ public class TetrisView extends JPanel {
     private static final double MARGIN = 15;
 
     /** The welcome message */
-    private static final String[] welcomeMessage = { "Velkommen til tetris", "trykk s for å starte" };
+    ArrayList<String> welcomeMessage = new ArrayList<>(Arrays.asList("Velkommen til tetris", "trykk s for å starte"));
 
     /** The message for choosing difficulty */
-    private static final String[] chooseDifficultyMessage = { "press 1 for lett, 2 for medium", "OG 3 FOR VANSKELIG" };
+    ArrayList<String> chooseDifficultyMessage = new ArrayList<>(
+            Arrays.asList("press 1 for lett, 2 for medium", "OG 3 FOR VANSKELIG"));
 
     /** The game over message */
-    private static final String[] gameOverMessage = { "Game over!" };
+    ArrayList<String> gameOverMessage = new ArrayList<>(Arrays.asList("Game over"));
 
     /**
      * Constructor for TetrisView.
@@ -61,6 +64,7 @@ public class TetrisView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         if (tetrisModel.getGameState() == GameState.GAME_OVER) {
+            gameOverMessage.add(tetrisModel.getName() + ": " + tetrisModel.getScore());
             drawCanvasWithText(g2, gameOverMessage, colorTheme.getTextColor(), 40);
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
             drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 30);
@@ -108,9 +112,9 @@ public class TetrisView extends JPanel {
 
         CellPositionToPixelConverter cellInfo = new CellPositionToPixelConverter(canvas,
                 tetrisModel.getDimension(), TETRISINNERMARGIN);
-        drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme, true);
-        drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme, true);
-        drawCells(g2, tetrisModel.getShadowPosition(), cellInfo, colorTheme, false);
+        drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme, false);
+        drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme, false);
+        drawCells(g2, tetrisModel.getShadowPosition(), cellInfo, colorTheme, true);
         drawInfo(g2);
     }
 
@@ -129,7 +133,7 @@ public class TetrisView extends JPanel {
 
             Rectangle2D tile = converter.getBoundsForCell(gridCell.pos());
             Color color = colorTheme.getCellColor(gridCell.value());
-            if (!isShadow) {
+            if (isShadow) {
                 g2.setColor(color);
                 g2.draw(tile);
                 g2.setColor(new Color(255, 255, 255, 50));
@@ -149,7 +153,7 @@ public class TetrisView extends JPanel {
      * @param textColor   The color of the text
      * @param textSize    The size of the text
      */
-    private void drawCanvasWithText(Graphics2D g2, String[] linesOfText, Color textColor, int textSize) {
+    private void drawCanvasWithText(Graphics2D g2, ArrayList<String> linesOfText, Color textColor, int textSize) {
         int lineSpace = 50;
         int x = getWidth() / 2;
         int y = getHeight() / 2;
@@ -158,8 +162,10 @@ public class TetrisView extends JPanel {
         g2.fill(canvas);
         g2.setColor(textColor);
         g2.setFont(new Font("Arial", Font.BOLD, textSize));
-        for (int i = 0; i < linesOfText.length; i++) {
-            Inf101Graphics.drawCenteredString(g2, linesOfText[i], x, y + lineSpace * i);
+        int count = 1;
+        for (String line : linesOfText) {
+            Inf101Graphics.drawCenteredString(g2, line, x, y + lineSpace * count);
+            count++;
 
         }
     }
