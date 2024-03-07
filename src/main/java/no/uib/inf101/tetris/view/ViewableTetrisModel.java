@@ -48,13 +48,9 @@ public interface ViewableTetrisModel {
 
     String getLines();
 
-    String getScore();
+    Integer getScore();
 
     String getLevel();
 
     Integer getPoints(int numberOfLines);
-
-    String getName();
-
-    void setName(String name);
 }

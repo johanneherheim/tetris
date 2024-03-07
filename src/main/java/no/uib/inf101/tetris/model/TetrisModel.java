@@ -36,8 +36,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     public Integer level;
 
-    String name;
-
     /**
      * Class constructor
      * 
@@ -52,7 +50,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         lineCount = 0;
         score = 0;
         level = 1;
-        name = "Guest";
     }
 
     @Override
@@ -114,7 +111,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
             try (FileWriter fw = new FileWriter("db/highscores.txt", true);
                     BufferedWriter bw = new BufferedWriter(fw);
                     PrintWriter out = new PrintWriter(bw)) {
-                out.println(name + ": " + score);
+                out.println(score);
             } catch (IOException e) {
                 System.err.println("An error occurred.");
             }
@@ -196,8 +193,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public String getScore() {
-        return score.toString();
+    public Integer getScore() {
+        return score;
     }
 
     @Override
@@ -218,16 +215,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     @Override
     public String getLevel() {
         return level.toString();
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

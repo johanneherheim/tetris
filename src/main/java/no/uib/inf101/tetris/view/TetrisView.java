@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JPanel;
-
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.tetris.model.GameState;
 import java.io.File; // Import the File class
@@ -34,15 +33,15 @@ public class TetrisView extends JPanel {
     /** The margin around all the elements in the game */
     private static final double MARGIN = 15;
 
-    /** The welcome message */
-    ArrayList<String> welcomeMessage = new ArrayList<>(Arrays.asList("Velkommen til tetris", "trykk s for å starte"));
-
     /** The message for choosing difficulty */
     ArrayList<String> chooseDifficultyMessage = new ArrayList<>(
             Arrays.asList("press 1 for lett, 2 for medium", "OG 3 FOR VANSKELIG"));
 
     /** The game over message */
     ArrayList<String> gameOverMessage = new ArrayList<>(Arrays.asList("Game over"));
+
+    /** The welcome message */
+    ArrayList<String> welcomeMessage = new ArrayList<>(Arrays.asList("VELKOMMEN TIL TETRIS!", "Trykk s for å starte"));
 
     /**
      * Constructor for TetrisView.
@@ -67,9 +66,9 @@ public class TetrisView extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         if (tetrisModel.getGameState() == GameState.GAME_OVER) {
-            drawGameOver(g2, gameOverMessage, colorTheme.getTextColor(), 40);
+            drawGameOver(g2, getThreeHighestScores(), tetrisModel.getScore());
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
-            drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 30);
+            drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 20);
         } else if (tetrisModel.getGameState() == GameState.CHOOSE_DIFFICULTY) {
             drawCanvasWithText(g2, chooseDifficultyMessage, colorTheme.getTextColor(), 20);
             ;
@@ -172,33 +171,54 @@ public class TetrisView extends JPanel {
         }
     }
 
-    private void drawGameOver(Graphics2D g2, ArrayList<String> linesOfText, Color textColor, int textSize) {
+    ArrayList<Integer> getThreeHighestScores() {
+        int firstPlace = 0;
+        int secondPlace = 0;
+        int thirdPlace = 0;
+        ArrayList<Integer> allScores = new ArrayList<>();
+        // w3 schools https://www.w3schools.com/java/java_files_read.asp 7. mars 2024
         try {
-            // w3 schools https://www.w3schools.com/java/java_files_read.asp 7. mars 2024
             File myObj = new File("db/highscores.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
-                String line = myReader.nextLine();
-                gameOverMessage.add(line);
+                String data = myReader.nextLine();
+                allScores.add(Integer.parseInt(data));
             }
             myReader.close();
         } catch (FileNotFoundException e) {
             System.err.println("Error occrued while trying to read highscores");
         }
-        int lineSpace = 50;
-        int x = getWidth() / 2;
-        int y = getHeight() / 2;
+        for (int score : allScores) {
+            if (score > firstPlace) {
+                thirdPlace = secondPlace;
+                secondPlace = firstPlace;
+                firstPlace = score;
+            } else if (score > secondPlace) {
+                thirdPlace = secondPlace;
+                secondPlace = score;
+            } else if (score > thirdPlace) {
+                thirdPlace = score;
+            }
+        }
+
+        return new ArrayList<Integer>(Arrays.asList(firstPlace, secondPlace, thirdPlace));
+    }
+
+    private void drawGameOver(Graphics2D g2, ArrayList<Integer> highestScores, Integer score) {
         Rectangle2D canvas = getCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
         g2.fill(canvas);
-        g2.setColor(textColor);
-        g2.setFont(new Font("Arial", Font.BOLD, textSize));
-        int count = 1;
-        for (String line : linesOfText) {
-            Inf101Graphics.drawCenteredString(g2, line, x, y + lineSpace * count);
-            count++;
+        g2.setColor(colorTheme.getTextColor());
+        g2.setFont(new Font("Arial", Font.BOLD, 40));
+        Inf101Graphics.drawCenteredString(g2, "Game over!", getWidth() / 2, getHeight() * 1 / 5);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        Inf101Graphics.drawCenteredString(g2, "Your score: " + score, getWidth() / 2, getHeight() / 3);
+        Inf101Graphics.drawCenteredString(g2, "Highscores", getWidth() / 2, getHeight() / 2);
 
-        }
+        Inf101Graphics.drawCenteredString(g2, "1. " + highestScores.get(0), getWidth() / 2, getHeight() / 2 + 50);
+        Inf101Graphics.drawCenteredString(g2, "2. " + highestScores.get(1), getWidth() / 2, getHeight() / 2 + 100);
+        Inf101Graphics.drawCenteredString(g2, "3. " + highestScores.get(2), getWidth() / 2, getHeight() / 2 + 150);
+        Inf101Graphics.drawCenteredString(g2, "Press Enter to start a new game", getWidth() / 2, getHeight() / 2 + 300);
     }
 
     private void drawInfo(Graphics2D g2) {
