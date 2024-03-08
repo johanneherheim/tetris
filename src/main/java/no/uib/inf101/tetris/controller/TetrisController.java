@@ -54,10 +54,18 @@ public class TetrisController implements java.awt.event.KeyListener {
         } else if (controllableTetrisModel.getGameState() == GameState.GAME_OVER) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 controllableTetrisModel.setGameState(GameState.WELCOME_SCREEN);
-                // TODO: implement restart method
+                restartGame();
             }
         }
         tetrisView.repaint();
+    }
+
+    private void restartGame() {
+        controllableTetrisModel.setGameState(GameState.WELCOME_SCREEN);
+        controllableTetrisModel.resetGame();
+        TetrisSong music = new TetrisSong();
+        music.run();
+        timer.restart();
     }
 
     @Override
@@ -77,4 +85,5 @@ public class TetrisController implements java.awt.event.KeyListener {
         timer.setDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
         timer.setInitialDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
     }
+
 }

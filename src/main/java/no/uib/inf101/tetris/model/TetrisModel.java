@@ -231,4 +231,15 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         this.level = level;
     }
 
+    public void resetGame() {
+        gameState = GameState.WELCOME_SCREEN;
+
+        tetrisBoard.clear();
+
+        score = 0;
+        lineCount = 0;
+        level = 1;
+
+        getNewFallingTetromino();
+    }
 }

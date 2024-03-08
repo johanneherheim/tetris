@@ -80,4 +80,10 @@ public class TetrisBoard extends Grid<Character> {
 
         return lineCount;
     }
+
+    void clear() {
+        for (GridCell<Character> cell : this) {
+            this.set(cell.pos(), '-');
+        }
+    }
 }

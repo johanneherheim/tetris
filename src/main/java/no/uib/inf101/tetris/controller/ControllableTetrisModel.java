@@ -53,4 +53,6 @@ public interface ControllableTetrisModel {
 
     Integer getLevel();
 
+    void resetGame();
+
 }
