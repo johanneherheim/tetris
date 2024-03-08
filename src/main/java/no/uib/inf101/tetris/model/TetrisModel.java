@@ -155,8 +155,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         lineCount += linesRemoved;
         if (linesRemoved > 0) {
             score += getPoints(linesRemoved) * level;
-            if (lineCount > 0 && lineCount % 10 == 0) {
-                level += 1;
+            if (lineCount % 10 == 0) {
+                level++;
             }
         }
         getNewFallingTetromino();
@@ -192,25 +192,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     @Override
     public Integer delay(int level) {
-        if (level == 1) {
-            return 1000;
-        } else if (level == 2) {
-            return 900;
-        } else if (level == 3) {
-            return 800;
-        } else if (level == 4) {
-            return 700;
-        } else if (level == 5) {
-            return 500;
-        } else if (level == 6) {
-            return 400;
-        } else if (level == 7) {
-            return 300;
-        } else if (level == 8) {
-            return 200;
-        } else {
-            return 100;
-        }
+        level = Math.max(1, Math.min(level, 8));
+        return 1000 - (level - 1) * 100;
     }
 
     @Override
