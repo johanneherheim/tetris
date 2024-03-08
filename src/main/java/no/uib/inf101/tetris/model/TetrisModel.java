@@ -26,6 +26,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     TetrisBoard tetrisBoard;
 
     TetrominoFactory randomTetromino;
+
     Tetromino tetromino;
 
     public GameState gameState;
@@ -177,13 +178,25 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public Integer delay(int difficulty) {
-        if (difficulty == 2) {
+    public Integer delay(int level) {
+        if (level == 1) {
+            return 1000;
+        } else if (level == 2) {
+            return 900;
+        } else if (level == 3) {
+            return 800;
+        } else if (level == 4) {
+            return 700;
+        } else if (level == 5) {
+            return 500;
+        } else if (level == 6) {
             return 400;
-        } else if (difficulty == 3) {
+        } else if (level == 7) {
+            return 300;
+        } else if (level == 8) {
             return 200;
         } else {
-            return 1000;
+            return 100;
         }
     }
 
@@ -213,8 +226,13 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public String getLevel() {
-        return level.toString();
+    public Integer getLevel() {
+        return level;
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
     }
 
 }

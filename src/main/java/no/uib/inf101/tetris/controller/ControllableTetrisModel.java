@@ -38,7 +38,7 @@ public interface ControllableTetrisModel {
      * 
      * @return milliseconds between each tick
      */
-    Integer delay(int difficulty);
+    Integer delay(int level);
 
     /**
      * Gets called each time the clock ticks
@@ -48,5 +48,9 @@ public interface ControllableTetrisModel {
     void clockTick();
 
     void setGameState(GameState activeGame);
+
+    void setLevel(int level);
+
+    Integer getLevel();
 
 }

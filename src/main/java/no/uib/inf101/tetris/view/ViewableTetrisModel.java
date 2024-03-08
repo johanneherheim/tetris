@@ -50,7 +50,7 @@ public interface ViewableTetrisModel {
 
     Integer getScore();
 
-    String getLevel();
+    Integer getLevel();
 
     Integer getPoints(int numberOfLines);
 }

@@ -1,5 +1,5 @@
 package no.uib.inf101.tetris.model;
 
 public enum GameState {
-    ACTIVE_GAME, GAME_OVER, WELCOME_SCREEN, CHOOSE_DIFFICULTY
+    ACTIVE_GAME, GAME_OVER, WELCOME_SCREEN
 }

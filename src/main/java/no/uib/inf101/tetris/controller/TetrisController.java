@@ -12,7 +12,6 @@ public class TetrisController implements java.awt.event.KeyListener {
     ControllableTetrisModel controllableTetrisModel;
     TetrisView tetrisView;
     Timer timer;
-    Integer difficulty;
 
     public TetrisController(ControllableTetrisModel controllableTetrisModel, TetrisView tetrisView) {
         this.controllableTetrisModel = controllableTetrisModel;
@@ -40,25 +39,15 @@ public class TetrisController implements java.awt.event.KeyListener {
             } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 controllableTetrisModel.moveTetromino(1, 0);
                 timer.restart();
-            } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+            } else if (e.getKeyCode() == KeyEvent.VK_UP
+                    && controllableTetrisModel.getGameState() == GameState.ACTIVE_GAME) {
                 controllableTetrisModel.rotateTetromino();
             } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 controllableTetrisModel.dropTetromino();
             }
-        } else if (e.getKeyCode() == KeyEvent.VK_S
-                && controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
-            controllableTetrisModel.setGameState(GameState.CHOOSE_DIFFICULTY);
-        } else if (controllableTetrisModel.getGameState() == GameState.CHOOSE_DIFFICULTY) {
-            if (e.getKeyCode() == KeyEvent.VK_1) {
-                difficulty = 1;
-                controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
-            } else if (e.getKeyCode() == KeyEvent.VK_2) {
-                difficulty = 2;
-                controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
-            } else if (e.getKeyCode() == KeyEvent.VK_3) {
-                difficulty = 3;
-                controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
-            }
+        } else if (controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN
+                && e.getKeyCode() == KeyEvent.VK_S) {
+            controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
 
         } else if (controllableTetrisModel.getGameState() == GameState.GAME_OVER) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -83,7 +72,7 @@ public class TetrisController implements java.awt.event.KeyListener {
     }
 
     void getDelay() {
-        timer.setDelay(controllableTetrisModel.delay(difficulty));
-        timer.setInitialDelay(controllableTetrisModel.delay(difficulty));
+        timer.setDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
+        timer.setInitialDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
     }
 }

@@ -33,10 +33,6 @@ public class TetrisView extends JPanel {
     /** The margin around all the elements in the game */
     private static final double MARGIN = 15;
 
-    /** The message for choosing difficulty */
-    ArrayList<String> chooseDifficultyMessage = new ArrayList<>(
-            Arrays.asList("press 1 for lett, 2 for medium", "OG 3 FOR VANSKELIG"));
-
     /** The game over message */
     ArrayList<String> gameOverMessage = new ArrayList<>(Arrays.asList("Game over"));
 
@@ -69,9 +65,6 @@ public class TetrisView extends JPanel {
             drawGameOver(g2, getThreeHighestScores(), tetrisModel.getScore());
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
             drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 20);
-        } else if (tetrisModel.getGameState() == GameState.CHOOSE_DIFFICULTY) {
-            drawCanvasWithText(g2, chooseDifficultyMessage, colorTheme.getTextColor(), 20);
-            ;
         } else {
             drawGame(g2);
         }
