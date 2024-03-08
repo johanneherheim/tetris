@@ -94,8 +94,21 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     @Override
     public boolean rotateTetromino() {
+        Tetromino candidate = tetromino;
+        if (tetromino.getCellPosition().row() < 0) {
+            candidate = candidate.shiftedBy(1, 0);
+        } else if (tetromino.getCellPosition().col() < 0) {
+            candidate = candidate.shiftedBy(0, 1);
+        } else if (tetromino.getCellPosition().col() + tetromino.getShape()[0].length > tetrisBoard.cols()) {
+            candidate = candidate.shiftedBy(0, -1);
+        } else if (tetromino.getCellPosition().row() + tetromino.getShape().length > tetrisBoard.rows()) {
+            candidate = candidate.shiftedBy(-1, 0);
+        }
         if (tetromino.isRotatable(tetrisBoard)) {
             tetromino = tetromino.rotate();
+            return true;
+        } else if (candidate.isRotatable(tetrisBoard)) {
+            tetromino = candidate.rotate();
             return true;
         }
         return false;
