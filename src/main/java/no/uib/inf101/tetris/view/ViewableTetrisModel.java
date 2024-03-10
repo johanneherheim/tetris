@@ -1,8 +1,11 @@
 package no.uib.inf101.tetris.view;
 
+import java.util.ArrayList;
+
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
 import no.uib.inf101.tetris.model.GameState;
+import no.uib.inf101.tetris.model.tetromino.Tetromino;
 
 /** This interface has all the methods that a tetrismodel should have */
 public interface ViewableTetrisModel {
@@ -38,11 +41,7 @@ public interface ViewableTetrisModel {
      */
     Iterable<GridCell<Character>> getShadowPosition();
 
-    Iterable<GridCell<Character>> getHoldingTetromino();
-
-    boolean[][] getHoldingTetrominoShape();
-
-    char getHoldingTetrominoType();
+    Tetromino getHoldingTetromino();
 
     /**
      * Gives us the current gamestate
@@ -85,4 +84,11 @@ public interface ViewableTetrisModel {
      * @return points to be added to the score
      */
     Integer getPoints(int numberOfLines);
+
+    /**
+     * Gives us the three next tetrominos
+     * 
+     * @return the three next tetrominos in an arraylist
+     */
+    ArrayList<Tetromino> getNextTetrominos();
 }
