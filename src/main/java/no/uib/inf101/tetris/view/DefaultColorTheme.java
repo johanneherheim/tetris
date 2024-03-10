@@ -27,16 +27,16 @@ public class DefaultColorTheme implements ColorTheme {
 
     @Override
     public Color getFrameColor() {
-        return Color.LIGHT_GRAY;
+        return Color.GRAY;
     }
 
     @Override
     public Color getBackgroundColor() {
-        return Color.WHITE;
+        return Color.LIGHT_GRAY;
     }
 
     @Override
     public Color getTextColor() {
-        return Color.DARK_GRAY;
+        return Color.BLACK;
     }
 }

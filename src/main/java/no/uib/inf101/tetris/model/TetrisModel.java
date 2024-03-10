@@ -33,6 +33,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     /** The holdingTetromino object saved in the model */
     Tetromino holdingTetromino;
 
+    private ArrayList<Tetromino> tetrominoQueue;
+
     /** The gamestate of the game */
     public GameState gameState;
 
@@ -58,6 +60,11 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         lineCount = 0;
         score = 0;
         level = 1;
+
+        tetrominoQueue = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            tetrominoQueue.add(randomTetromino.getNext());
+        }
     }
 
     @Override
@@ -76,18 +83,12 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public Iterable<GridCell<Character>> getHoldingTetromino() {
+    public Tetromino getHoldingTetromino() {
         return holdingTetromino;
     }
 
-    @Override
-    public boolean[][] getHoldingTetrominoShape() {
-        return holdingTetromino.getShape();
-    }
-
-    @Override
-    public char getHoldingTetrominoType() {
-        return holdingTetromino.getType();
+    public ArrayList<Tetromino> getNextTetrominos() {
+        return tetrominoQueue;
     }
 
     @Override
@@ -145,7 +146,10 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
      * move the tetromino, the game is over and the score is saved in a file.
      */
     public void getNewFallingTetromino() {
-        tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
+        Tetromino newTetromino = tetrominoQueue.get(0).shiftedToTopCenterOf(tetrisBoard);
+        tetrominoQueue.remove(0);
+        tetromino = newTetromino;
+        tetrominoQueue.add(randomTetromino.getNext());
         if (!tetromino.isLegalMove(tetrisBoard, tetromino)) {
             gameState = GameState.GAME_OVER;
 
