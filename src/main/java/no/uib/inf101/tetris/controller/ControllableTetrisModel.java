@@ -71,4 +71,6 @@ public interface ControllableTetrisModel {
      */
     void resetGame();
 
+    void holdTetromino();
+
 }

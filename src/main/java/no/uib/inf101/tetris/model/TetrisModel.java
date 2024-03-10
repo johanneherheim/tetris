@@ -30,6 +30,9 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     /** The tetromino object saved in the model */
     Tetromino tetromino;
 
+    /** The holdingTetromino object saved in the model */
+    Tetromino holdingTetromino;
+
     /** The gamestate of the game */
     public GameState gameState;
 
@@ -70,6 +73,21 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     @Override
     public Iterable<GridCell<Character>> fallingTetromino() {
         return tetromino;
+    }
+
+    @Override
+    public Iterable<GridCell<Character>> getHoldingTetromino() {
+        return holdingTetromino;
+    }
+
+    @Override
+    public boolean[][] getHoldingTetrominoShape() {
+        return holdingTetromino.getShape();
+    }
+
+    @Override
+    public char getHoldingTetrominoType() {
+        return holdingTetromino.getType();
     }
 
     @Override
@@ -177,6 +195,17 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         while (moveTetromino(1, 0)) {
         }
         glueTetrominoToBoard(tetromino, tetrisBoard);
+    }
+
+    public void holdTetromino() {
+        if (holdingTetromino == null) {
+            holdingTetromino = tetromino;
+            getNewFallingTetromino();
+        } else {
+            Tetromino temp = tetromino;
+            tetromino = holdingTetromino;
+            holdingTetromino = temp;
+        }
     }
 
     @Override
