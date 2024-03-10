@@ -38,6 +38,12 @@ public interface ViewableTetrisModel {
      */
     Iterable<GridCell<Character>> getShadowPosition();
 
+    Iterable<GridCell<Character>> getHoldingTetromino();
+
+    boolean[][] getHoldingTetrominoShape();
+
+    char getHoldingTetrominoType();
+
     /**
      * Gives us the current gamestate
      * 

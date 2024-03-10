@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JPanel;
+
+import no.uib.inf101.grid.CellPosition;
+import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
+import no.uib.inf101.grid.GridDimension;
 import no.uib.inf101.tetris.model.GameState;
 import java.io.File; // Import the File class
 import java.io.FileNotFoundException; // Import this class to handle errors
@@ -101,15 +105,75 @@ public class TetrisView extends JPanel {
     private void drawGame(Graphics2D g2) {
 
         Rectangle2D canvas = getCanvas();
+
         g2.setColor(colorTheme.getBackgroundColor());
         g2.fill(canvas);
 
-        CellPositionToPixelConverter cellInfo = new CellPositionToPixelConverter(canvas,
+        CellPositionToPixelConverter tetrisBoardConverter = new CellPositionToPixelConverter(canvas,
                 tetrisModel.getDimension(), TETRISINNERMARGIN);
-        drawCells(g2, tetrisModel.getTilesOnBoard(), cellInfo, colorTheme, false);
-        drawCells(g2, tetrisModel.fallingTetromino(), cellInfo, colorTheme, false);
-        drawCells(g2, tetrisModel.getShadowPosition(), cellInfo, colorTheme, true);
+
+        drawCells(g2, tetrisModel.getTilesOnBoard(), tetrisBoardConverter, colorTheme, false);
+        drawCells(g2, tetrisModel.fallingTetromino(), tetrisBoardConverter, colorTheme, false);
+        drawCells(g2, tetrisModel.getShadowPosition(), tetrisBoardConverter, colorTheme, true);
+        if (tetrisModel.getHoldingTetromino() != null) {
+            drawHoldingTetromino(g2, tetrisModel.getHoldingTetrominoShape(), tetrisModel.getHoldingTetrominoType(),
+                    colorTheme);
+        } else {
+            drawHoldingTetromino(g2, new boolean[4][4], '-', colorTheme);
+        }
         drawInfo(g2);
+    }
+
+    /**
+     * Draws the holding tetromino.
+     * 
+     * @param g2         The graphics object
+     * @param shape      The shape of the tetromino
+     * @param type       The type of the tetromino
+     * @param colorTheme The color theme
+     */
+
+    private void drawHoldingTetromino(Graphics2D g2, boolean[][] shape, char type,
+            ColorTheme colorTheme) {
+
+        g2.setColor(colorTheme.getTextColor());
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        Inf101Graphics.drawCenteredString(g2, "Hold:", 60, 15);
+        GridDimension grid = new Grid<>(4, 4);
+
+        // if the shape is 3x3, we need to add a row and a col of false
+        if (shape.length == 3) {
+            boolean[][] newShape = new boolean[4][4];
+            for (int i = 0; i < shape.length; i++) {
+                for (int j = 0; j < shape[i].length; j++) {
+                    newShape[i][j] = shape[i][j];
+                }
+            }
+            shape = newShape;
+        }
+
+        Rectangle2D holdingBox = new Rectangle2D.Double(MARGIN * 2, MARGIN * 2, this.getWidth() / 6,
+                this.getWidth() / 6);
+        CellPositionToPixelConverter holdingGridConverter = new CellPositionToPixelConverter(holdingBox,
+                grid,
+                TETRISINNERMARGIN);
+
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(holdingBox);
+        for (int i = 0; i < shape.length; i++) {
+            for (int j = 0; j < shape[i].length; j++) {
+                if (shape[i][j]) {
+                    Rectangle2D tile = holdingGridConverter.getBoundsForCell(new CellPosition(i, j));
+                    g2.setColor(colorTheme.getCellColor(type));
+                    g2.fill(tile);
+                } else {
+                    Rectangle2D tile = holdingGridConverter.getBoundsForCell(new CellPosition(i, j));
+                    g2.setColor(colorTheme.getCellColor('-'));
+                    g2.fill(tile);
+                }
+            }
+        }
+
     }
 
     /**
@@ -233,7 +297,7 @@ public class TetrisView extends JPanel {
      * @param g2 The graphics object
      */
     private void drawInfo(Graphics2D g2) {
-        Rectangle2D box = new Rectangle2D.Double(MARGIN * 2, MARGIN * 2, this.getWidth() / 6,
+        Rectangle2D box = new Rectangle2D.Double(MARGIN * 2, this.getHeight() / 2, this.getWidth() / 6,
                 this.getWidth() / 6);
         g2.setColor(Color.WHITE);
         g2.fill(box);
