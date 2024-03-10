@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.Timer;
 
-import no.uib.inf101.tetris.midi.TetrisSong;
 import no.uib.inf101.tetris.model.GameState;
 import no.uib.inf101.tetris.view.TetrisView;
 
@@ -59,13 +58,11 @@ public class TetrisController implements java.awt.event.KeyListener {
         } else if (controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN
                 && e.getKeyCode() == KeyEvent.VK_S) {
             controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
-            TetrisSong music = new TetrisSong();
-            music.run();
 
         } else if (controllableTetrisModel.getGameState() == GameState.GAME_OVER) {
+
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 controllableTetrisModel.resetGame();
-                timer.restart();
             }
         }
         tetrisView.repaint();
@@ -88,5 +85,4 @@ public class TetrisController implements java.awt.event.KeyListener {
         timer.setDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
         timer.setInitialDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
     }
-
 }
