@@ -9,11 +9,22 @@ import no.uib.inf101.tetris.midi.TetrisSong;
 import no.uib.inf101.tetris.model.GameState;
 import no.uib.inf101.tetris.view.TetrisView;
 
+/**
+ * The TetrisController class handles user input.
+ */
 public class TetrisController implements java.awt.event.KeyListener {
+
     ControllableTetrisModel controllableTetrisModel;
     TetrisView tetrisView;
     Timer timer;
 
+    /**
+     * Constructor for the TetrisController class, specifying the
+     * controllableTetrisModel and the tetrisView.
+     * 
+     * @param controllableTetrisModel the controllableTetrisModel to control
+     * @param tetrisView              the tetrisView to update
+     */
     public TetrisController(ControllableTetrisModel controllableTetrisModel, TetrisView tetrisView) {
         this.controllableTetrisModel = controllableTetrisModel;
         this.tetrisView = tetrisView;
@@ -26,7 +37,7 @@ public class TetrisController implements java.awt.event.KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
+        // Unimplemented method 'keyTyped'
         throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
@@ -53,19 +64,11 @@ public class TetrisController implements java.awt.event.KeyListener {
 
         } else if (controllableTetrisModel.getGameState() == GameState.GAME_OVER) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                controllableTetrisModel.setGameState(GameState.WELCOME_SCREEN);
-                restartGame();
+                controllableTetrisModel.resetGame();
+                timer.restart();
             }
         }
         tetrisView.repaint();
-    }
-
-    private void restartGame() {
-        controllableTetrisModel.setGameState(GameState.WELCOME_SCREEN);
-        controllableTetrisModel.resetGame();
-        TetrisSong music = new TetrisSong();
-        music.run();
-        timer.restart();
     }
 
     @Override

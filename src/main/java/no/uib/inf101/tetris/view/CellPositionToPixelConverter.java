@@ -38,21 +38,20 @@ public class CellPositionToPixelConverter {
      */
 
     public Rectangle2D getBoundsForCell(CellPosition cp) {
-        double boxTopY = this.box.getY();
-        double boxTopX = this.box.getX();
+        double y0 = this.box.getY();
+        double x0 = this.box.getX();
         double boxWidth = this.box.getWidth();
         double boxHeight = this.box.getHeight();
         double row = cp.row();
         double col = cp.col();
-        double rows = gd.rows();
-        double cols = gd.cols();
+        double numberOfRows = this.gd.rows();
+        double numberOfCols = this.gd.cols();
 
-        double cellHeight = (boxHeight - (rows + 1) * MARGIN) / rows;
-        double cellWidth = (boxWidth - (cols + 1) * MARGIN) / cols;
+        double cellHeight = (boxHeight - (numberOfRows + 1) * MARGIN) / numberOfRows;
+        double cellWidth = (boxWidth - (numberOfCols + 1) * MARGIN) / numberOfCols;
 
-        double x = boxTopX + MARGIN * (col + 1) + cellWidth * col;
-        ;
-        double y = boxTopY + MARGIN * (row + 1) + cellHeight * row;
+        double x = x0 + MARGIN * (col + 1) + cellWidth * col;
+        double y = y0 + MARGIN * (row + 1) + cellHeight * row;
         return new Rectangle2D.Double(x, y, cellWidth, cellHeight);
     }
 }

@@ -37,6 +37,12 @@ public class TetrisBoard extends Grid<Character> {
         return board.substring(0, board.length() - 1);
     }
 
+    /**
+     * Method for checking if a row is full.
+     * 
+     * @param row the row to check
+     * @return true if the row is full, false if not
+     */
     boolean isRowFull(int row) {
         for (int col = 0; col < this.cols(); col++) {
             if (this.get(new CellPosition(row, col)) == '-') {
@@ -46,6 +52,11 @@ public class TetrisBoard extends Grid<Character> {
         return true;
     }
 
+    /**
+     * Method for removing full rows from the board.
+     * 
+     * @return the number of rows removed
+     */
     Integer removeFullRows() {
         TetrisBoard newBoard = this;
         // Opprett tellevariabel for å telle hvor mange rader som blir forkastet
@@ -81,7 +92,10 @@ public class TetrisBoard extends Grid<Character> {
         return lineCount;
     }
 
-    void clear() {
+    /**
+     * Method for clearing the board.
+     */
+    void clearBoard() {
         for (GridCell<Character> cell : this) {
             this.set(cell.pos(), '-');
         }

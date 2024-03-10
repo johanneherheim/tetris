@@ -164,10 +164,16 @@ public class TetrisView extends JPanel {
         }
     }
 
+    /**
+     * Returns the three highest scores from the highscore-file.
+     * 
+     * @return List of the three highest scores
+     */
     ArrayList<Integer> getThreeHighestScores() {
         int firstPlace = 0;
         int secondPlace = 0;
         int thirdPlace = 0;
+
         ArrayList<Integer> allScores = new ArrayList<>();
         // w3 schools https://www.w3schools.com/java/java_files_read.asp 7. mars 2024
         try {
@@ -179,7 +185,7 @@ public class TetrisView extends JPanel {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            System.err.println("Error occrued while trying to read highscores");
+            System.err.println("Error occrued while trying to read the highscores");
         }
         for (int score : allScores) {
             if (score > firstPlace) {
@@ -197,6 +203,13 @@ public class TetrisView extends JPanel {
         return new ArrayList<Integer>(Arrays.asList(firstPlace, secondPlace, thirdPlace));
     }
 
+    /**
+     * Draws the game over screen.
+     * 
+     * @param g2            The graphics object
+     * @param highestScores The three highest scores
+     * @param score         The score of the current game
+     */
     private void drawGameOver(Graphics2D g2, ArrayList<Integer> highestScores, Integer score) {
         Rectangle2D canvas = getCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
@@ -214,6 +227,11 @@ public class TetrisView extends JPanel {
         Inf101Graphics.drawCenteredString(g2, "Press Enter to start a new game", getWidth() / 2, getHeight() / 2 + 300);
     }
 
+    /**
+     * Draws the info-box with the score, lines and level.
+     * 
+     * @param g2 The graphics object
+     */
     private void drawInfo(Graphics2D g2) {
         Rectangle2D box = new Rectangle2D.Double(MARGIN * 2, MARGIN * 2, this.getWidth() / 6,
                 this.getWidth() / 6);

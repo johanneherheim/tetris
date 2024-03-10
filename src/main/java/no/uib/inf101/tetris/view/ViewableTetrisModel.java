@@ -44,13 +44,39 @@ public interface ViewableTetrisModel {
      * @return the current gamestate
      */
 
+    /**
+     * Gives us the current gamestate
+     * 
+     * @return the current gamestate
+     */
+
     GameState getGameState();
 
+    /**
+     * Gives us the number of lines removed
+     * 
+     * @return number of lines
+     */
     String getLines();
 
+    /**
+     * Gives us the current score
+     * 
+     * @return score
+     */
     Integer getScore();
 
+    /**
+     * Gives us the current level
+     * 
+     * @return level
+     */
     Integer getLevel();
 
+    /**
+     * Gives us the number of points for the number of lines removed
+     * 
+     * @return points to be added to the score
+     */
     Integer getPoints(int numberOfLines);
 }

@@ -11,13 +11,13 @@ public class DefaultColorTheme implements ColorTheme {
     public Color getCellColor(char c) {
         Color color = switch (c) {
             case '-' -> Color.DARK_GRAY;
-            case 'T' -> new Color(255, 76, 97); // Lighter red
-            case 'O' -> new Color(255, 167, 96); // Lighter orange
-            case 'I' -> new Color(255, 237, 100); // Lighter yellow
-            case 'J' -> new Color(90, 192, 158); // Lighter greenish-blue
-            case 'L' -> new Color(0, 194, 255); // Lighter sky blue
-            case 'S' -> new Color(165, 122, 220); // Lighter purple
-            case 'Z' -> new Color(255, 133, 186); // Lighter pink
+            case 'T' -> new Color(255, 76, 97); // red
+            case 'O' -> new Color(255, 167, 96); // orange
+            case 'I' -> new Color(255, 237, 100); // yellow
+            case 'J' -> new Color(90, 192, 158); // green-blue
+            case 'L' -> new Color(0, 194, 255); // blue
+            case 'S' -> new Color(165, 122, 220); // purple
+            case 'Z' -> new Color(255, 133, 186); // pink
 
             default -> throw new IllegalArgumentException("No available color for '" + c + "'");
         };

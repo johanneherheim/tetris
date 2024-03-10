@@ -34,6 +34,27 @@ public interface ControllableTetrisModel {
     GameState getGameState();
 
     /**
+     * Sets the gamestate
+     * 
+     * @param gameState the new gamestate
+     */
+    void setGameState(GameState gameState);
+
+    /**
+     * Gets the current level
+     * 
+     * @return level
+     */
+    Integer getLevel();
+
+    /**
+     * Sets the level
+     * 
+     * @param level the new level
+     */
+    void setLevel(int level);
+
+    /**
      * Gives us the time between each tick
      * 
      * @return milliseconds between each tick
@@ -42,17 +63,12 @@ public interface ControllableTetrisModel {
 
     /**
      * Gets called each time the clock ticks
-     * 
-     * @param timer
      */
     void clockTick();
 
-    void setGameState(GameState activeGame);
-
-    void setLevel(int level);
-
-    Integer getLevel();
-
+    /**
+     * Resets the game
+     */
     void resetGame();
 
 }

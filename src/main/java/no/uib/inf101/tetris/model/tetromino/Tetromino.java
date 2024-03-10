@@ -45,10 +45,10 @@ public class Tetromino implements Iterable<GridCell<Character>> {
     }
 
     /**
-     * Get a new tetromino based on the parameter.
+     * Get a new tetromino based on the type.
      * 
      * @param type the type of the tetromino as a character.
-     * @return New tetromino object based on the parameter.
+     * @return New tetromino object based on the type.
      */
     static Tetromino newTetromino(char type) {
         boolean[][] shape;
@@ -128,14 +128,14 @@ public class Tetromino implements Iterable<GridCell<Character>> {
     }
 
     /**
-     * Method for checking if a tetromino is movable to a given position.
+     * Method for checking if a move is legal
      * 
-     * @param grid     the tetris-board
-     * @param deltaRow move in y-direction
-     * @param deltaCol move in x-direction
-     * @return True or false
+     * @param grid               The tetris-board.
+     * @param tetrominoCandidate The tetromino moved to the wanted position.
+     * @return true or false
      */
     public boolean isLegalMove(Grid<Character> grid, Tetromino tetrominoCandidate) {
+
         int startRow = tetrominoCandidate.cellPosition.row();
         int startCol = tetrominoCandidate.cellPosition.col();
 
@@ -161,37 +161,6 @@ public class Tetromino implements Iterable<GridCell<Character>> {
             }
         }
         return true;
-    }
-
-    @Override
-    public Iterator<GridCell<Character>> iterator() {
-        ArrayList<GridCell<Character>> cells = new ArrayList<GridCell<Character>>();
-        for (int i = 0; i < shape.length; i++) {
-            for (int j = 0; j < shape[i].length; j++) {
-                if (shape[i][j]) {
-                    cells.add(new GridCell<Character>(new CellPosition(cellPosition.row() + i,
-                            cellPosition.col() + j), type));
-                }
-            }
-        }
-        return cells.iterator();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        Tetromino tetromino = (Tetromino) obj;
-        return type == tetromino.type &&
-                Arrays.deepEquals(shape, tetromino.shape) &&
-                Objects.equals(cellPosition, tetromino.cellPosition);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, Arrays.deepHashCode(shape), cellPosition);
     }
 
     /**
@@ -268,5 +237,36 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      */
     public boolean[][] getShape() {
         return shape;
+    }
+
+    @Override
+    public Iterator<GridCell<Character>> iterator() {
+        ArrayList<GridCell<Character>> cells = new ArrayList<GridCell<Character>>();
+        for (int i = 0; i < shape.length; i++) {
+            for (int j = 0; j < shape[i].length; j++) {
+                if (shape[i][j]) {
+                    cells.add(new GridCell<Character>(new CellPosition(cellPosition.row() + i,
+                            cellPosition.col() + j), type));
+                }
+            }
+        }
+        return cells.iterator();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Tetromino tetromino = (Tetromino) obj;
+        return type == tetromino.type &&
+                Arrays.deepEquals(shape, tetromino.shape) &&
+                Objects.equals(cellPosition, tetromino.cellPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, Arrays.deepHashCode(shape), cellPosition);
     }
 }

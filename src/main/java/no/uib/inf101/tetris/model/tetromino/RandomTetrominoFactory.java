@@ -2,6 +2,7 @@ package no.uib.inf101.tetris.model.tetromino;
 
 import java.util.Random;
 
+/** Generates a random tetromino */
 public class RandomTetrominoFactory implements TetrominoFactory {
 
     @Override

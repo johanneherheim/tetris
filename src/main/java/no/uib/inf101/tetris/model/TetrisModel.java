@@ -3,7 +3,6 @@ package no.uib.inf101.tetris.model;
 import java.util.ArrayList;
 
 import no.uib.inf101.grid.CellPosition;
-import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.grid.GridDimension;
 import no.uib.inf101.tetris.controller.ControllableTetrisModel;
@@ -25,16 +24,22 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     /** The tetrisBoard object saved in the model */
     TetrisBoard tetrisBoard;
 
+    /** The randomTetromino object saved in the model */
     TetrominoFactory randomTetromino;
 
+    /** The tetromino object saved in the model */
     Tetromino tetromino;
 
+    /** The gamestate of the game */
     public GameState gameState;
 
+    /** The number of lines removed */
     public Integer lineCount;
 
+    /** The score of the game */
     public Integer score;
 
+    /** The level of the game */
     public Integer level;
 
     /**
@@ -42,7 +47,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
      * 
      * @param tetrisBoard the tetrisBoard
      */
-
     public TetrisModel(TetrisBoard tetrisBoard, TetrominoFactory randomTetromino) {
         this.tetrisBoard = tetrisBoard;
         this.randomTetromino = randomTetromino;
@@ -55,7 +59,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     @Override
     public GridDimension getDimension() {
-        return new Grid<>(tetrisBoard.rows(), tetrisBoard.cols());
+        return tetrisBoard;
     }
 
     @Override
@@ -95,15 +99,16 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     @Override
     public boolean rotateTetromino() {
         Tetromino candidate = tetromino;
+
+        // if a wall-kick is needed, the new position is saved in candidate
         if (tetromino.getCellPosition().row() < 0) {
             candidate = candidate.shiftedBy(1, 0);
         } else if (tetromino.getCellPosition().col() < 0) {
             candidate = candidate.shiftedBy(0, 1);
         } else if (tetromino.getCellPosition().col() + tetromino.getShape()[0].length > tetrisBoard.cols()) {
             candidate = candidate.shiftedBy(0, -1);
-        } else if (tetromino.getCellPosition().row() + tetromino.getShape().length > tetrisBoard.rows()) {
-            candidate = candidate.shiftedBy(-1, 0);
         }
+
         if (tetromino.isRotatable(tetrisBoard)) {
             tetromino = tetromino.rotate();
             return true;
@@ -111,28 +116,33 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
             tetromino = candidate.rotate();
             return true;
         }
+
+        // if the tetromino is not rotatable, and a wall-kick is not possible
         return false;
 
     }
 
-    public boolean getNewFallingTetromino() {
+    /**
+     * This method is used to get a new falling tetromino. If it is not possible to
+     * move the tetromino, the game is over and the score is saved in a file.
+     */
+    public void getNewFallingTetromino() {
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
         if (!tetromino.isLegalMove(tetrisBoard, tetromino)) {
             gameState = GameState.GAME_OVER;
+
             // stack overflow
             // https://stackoverflow.com/questions/1625234/how-to-append-text-to-an-existing-file-in-java
             // 7. mars 2024
+
             try (FileWriter fw = new FileWriter("db/highscores.txt", true);
                     BufferedWriter bw = new BufferedWriter(fw);
                     PrintWriter out = new PrintWriter(bw)) {
                 out.println(score);
             } catch (IOException e) {
-                System.err.println("An error occurred.");
+                System.err.println("An error occurred while saving your score.");
             }
-            return false;
         }
-        tetromino = randomTetromino.getNext().shiftedToTopCenterOf(tetrisBoard);
-        return true;
     }
 
     void glueTetrominoToBoard(Tetromino tetromino, TetrisBoard tetrisBoard) {
@@ -185,8 +195,8 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public void setGameState(GameState activeGame) {
-        gameState = activeGame;
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
 
     }
 
@@ -234,7 +244,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     public void resetGame() {
         gameState = GameState.WELCOME_SCREEN;
 
-        tetrisBoard.clear();
+        tetrisBoard.clearBoard();
 
         score = 0;
         lineCount = 0;
