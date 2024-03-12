@@ -10,8 +10,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import no.uib.inf101.grid.CellPosition;
-//import no.uib.inf101.grid.Grid;
 import no.uib.inf101.grid.GridCell;
+import no.uib.inf101.tetris.model.TetrisBoard;
 
 public class TetrominoTest {
     @Test
@@ -86,32 +86,93 @@ public class TetrominoTest {
         assertEquals(movedOnce.shiftedBy(1, 2), movedTwice);
     }
 
-    /*
-     * @Test
-     * public void testShiftedToTopCenterOf() {
-     * // TODO: Test for 4x4 Tetromino with an even number of columns
-     * Tetromino tetromino4x4 = Tetromino.newTetromino('O');
-     * Tetromino shifted4x4 = tetromino4x4.shiftedToTopCenterOf(new Grid<>(10, 10));
-     * 
-     * // Collect which objects are iterated through
-     * List<GridCell<Character>> objs = new ArrayList<>();
-     * for (GridCell<Character> gc : shifted4x4) {
-     * objs.add(gc);
-     * }
-     * 
-     * assertEquals(4, objs.size());
-     * assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 4), 'O')));
-     * assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 5), 'O')));
-     * assertTrue(objs.contains(new GridCell<>(new CellPosition(2, 4), 'O')));
-     * assertTrue(objs.contains(new GridCell<>(new CellPosition(2, 5), 'O')));
-     * 
-     * // TODO: Test for 4x4 Tetromino with an odd number of columns
-     * 
-     * // TODO: Test for 3x3 Tetromino with an even number of columns
-     * 
-     * // TODO: Test for 3x3 Tetromino with an odd number of columns
-     * }
-     */
+    // Test for 3x3 Tetromino with an even number of columns
+    @Test
+    public void testShiftedToTopCenterOf1() {
+        // Create a standard 'T' tetromino placed at (0, 0)
+        TetrisBoard board = new TetrisBoard(4, 4);
+        Tetromino tetro = Tetromino.newTetromino('T');
+        tetro = tetro.shiftedToTopCenterOf(board);
+
+        // Collect which objects are iterated through
+        List<GridCell<Character>> objs = new ArrayList<>();
+        for (GridCell<Character> gc : tetro) {
+            objs.add(gc);
+        }
+
+        // Check that we got the expected GridCell objects
+        assertEquals(4, objs.size());
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 0), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 1), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 2), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 1), 'T')));
+    }
+
+    // Test for 3x3 Tetromino with an odd number of columns
+    @Test
+    public void testShiftedToTopCenterOf2() {
+        // Create a standard 'T' tetromino placed at (0, 0)
+        TetrisBoard board = new TetrisBoard(5, 5);
+        Tetromino tetro = Tetromino.newTetromino('T');
+        tetro = tetro.shiftedToTopCenterOf(board);
+
+        // Collect which objects are iterated through
+        List<GridCell<Character>> objs = new ArrayList<>();
+        for (GridCell<Character> gc : tetro) {
+            objs.add(gc);
+        }
+
+        // Check that we got the expected GridCell objects
+        assertEquals(4, objs.size());
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 1), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 2), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 3), 'T')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(1, 2), 'T')));
+    }
+
+    // Test for 4x4 Tetromino with an even number of columns
+    @Test
+    public void testShiftedToTopCenterOf3() {
+        // Create a standard 'T' tetromino placed at (0, 0)
+        TetrisBoard board = new TetrisBoard(4, 8);
+        Tetromino tetro = Tetromino.newTetromino('I');
+        tetro = tetro.shiftedToTopCenterOf(board);
+
+        // Collect which objects are iterated through
+        List<GridCell<Character>> objs = new ArrayList<>();
+        for (GridCell<Character> gc : tetro) {
+            objs.add(gc);
+        }
+
+        // Check that we got the expected GridCell objects
+        assertEquals(4, objs.size());
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 2), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 3), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 4), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 5), 'I')));
+    }
+
+    // TODO: Test for 4x4 Tetromino with an odd number of columns
+    @Test
+    public void testShiftedToTopCenterOf4() {
+        // Create a standard 'T' tetromino placed at (0, 0)
+        TetrisBoard board = new TetrisBoard(4, 7);
+        Tetromino tetro = Tetromino.newTetromino('I');
+        tetro = tetro.shiftedToTopCenterOf(board);
+
+        // Collect which objects are iterated through
+        List<GridCell<Character>> objs = new ArrayList<>();
+        for (GridCell<Character> gc : tetro) {
+            objs.add(gc);
+        }
+
+        // Check that we got the expected GridCell objects
+        assertEquals(4, objs.size());
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 1), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 2), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 3), 'I')));
+        assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 4), 'I')));
+    }
 
     @Test
     public void testRotateTetrominoI() {
