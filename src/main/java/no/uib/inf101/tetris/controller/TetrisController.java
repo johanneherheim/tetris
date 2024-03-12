@@ -36,8 +36,6 @@ public class TetrisController implements java.awt.event.KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // Unimplemented method 'keyTyped'
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
     @Override
@@ -72,7 +70,6 @@ public class TetrisController implements java.awt.event.KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 
     void clockTick(ActionEvent e) {

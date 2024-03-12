@@ -9,6 +9,7 @@ import java.util.Iterator;
  * @param <E> the type of elements in the grid
  */
 public class Grid<E> implements IGrid<E> {
+
     /** number of rows in the grid */
     private int rows;
 
