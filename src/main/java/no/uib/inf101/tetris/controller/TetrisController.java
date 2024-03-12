@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.Timer;
 
+import no.uib.inf101.tetris.midi.TetrisSong;
 import no.uib.inf101.tetris.model.GameState;
 import no.uib.inf101.tetris.view.TetrisView;
 
@@ -16,6 +17,7 @@ public class TetrisController implements java.awt.event.KeyListener {
     ControllableTetrisModel controllableTetrisModel;
     TetrisView tetrisView;
     Timer timer;
+    TetrisSong music = new TetrisSong();
 
     /**
      * Constructor for the TetrisController class, specifying the
@@ -31,7 +33,7 @@ public class TetrisController implements java.awt.event.KeyListener {
         tetrisView.setFocusable(true);
         this.timer = new Timer(controllableTetrisModel.delay(1), this::clockTick);
         timer.start();
-
+        music.run();
     }
 
     @Override

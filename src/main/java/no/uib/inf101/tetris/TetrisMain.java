@@ -5,7 +5,6 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import no.uib.inf101.tetris.controller.TetrisController;
-import no.uib.inf101.tetris.midi.TetrisSong;
 import no.uib.inf101.tetris.model.TetrisBoard;
 import no.uib.inf101.tetris.model.TetrisModel;
 import no.uib.inf101.tetris.model.tetromino.RandomTetrominoFactory;
@@ -28,9 +27,6 @@ public class TetrisMain {
 
     @SuppressWarnings("unused")
     TetrisController controller = new TetrisController(tetrisModel, view);
-
-    TetrisSong music = new TetrisSong();
-    music.run();
 
     // The JFrame is the "root" application window.
     // We here set som properties of the main window,
