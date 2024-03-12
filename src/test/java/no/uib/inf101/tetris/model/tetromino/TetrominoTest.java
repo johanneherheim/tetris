@@ -152,7 +152,6 @@ public class TetrominoTest {
         assertTrue(objs.contains(new GridCell<>(new CellPosition(0, 5), 'I')));
     }
 
-    // TODO: Test for 4x4 Tetromino with an odd number of columns
     @Test
     public void testShiftedToTopCenterOf4() {
         // Create a standard 'T' tetromino placed at (0, 0)
