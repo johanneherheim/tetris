@@ -53,9 +53,81 @@ public class TetrisBoardTest {
         assertEquals(expected, board.prettyString());
     }
 
-    // test der nederste rad må beholdes
+    @Test
+    public void testNotRemoveBottomRow() {
+        // Tester at fulle rader fjernes i brettet:
+        // TL
+        // TL
+        // T-
 
-    // test der øverste rad skal fjernes
+        TetrisBoard board = new TetrisBoard(3, 2);
+        board.set(new CellPosition(0, 0), 'T');
+        board.set(new CellPosition(1, 0), 'T');
+        board.set(new CellPosition(2, 0), 'T');
+        board.set(new CellPosition(0, 1), 'L');
+        board.set(new CellPosition(1, 1), 'L');
+        board.set(new CellPosition(2, 1), '-');
 
-    // test med en annen bredde på brettet
+        assertEquals(2, board.removeFullRows());
+
+        String expected = String.join("\n", new String[] {
+                "--",
+                "--",
+                "T-",
+        });
+        assertEquals(expected, board.prettyString());
+    }
+
+    @Test
+    public void testRemoveTopRow() {
+        // Tester at fulle rader fjernes i brettet:
+        // TL
+        // T-
+        // T-
+
+        TetrisBoard board = new TetrisBoard(3, 2);
+        board.set(new CellPosition(0, 0), 'T');
+        board.set(new CellPosition(1, 0), 'T');
+        board.set(new CellPosition(2, 0), 'T');
+        board.set(new CellPosition(0, 1), 'L');
+        board.set(new CellPosition(1, 1), '-');
+        board.set(new CellPosition(2, 1), '-');
+
+        assertEquals(1, board.removeFullRows());
+
+        String expected = String.join("\n", new String[] {
+                "--",
+                "T-",
+                "T-",
+        });
+        assertEquals(expected, board.prettyString());
+    }
+
+    @Test
+    public void testRemoveFullRows2() {
+        // Tester at fulle rader fjernes i brettet:
+        // T--
+        // TLS
+        // T--
+
+        TetrisBoard board = new TetrisBoard(3, 3);
+        board.set(new CellPosition(0, 0), 'T');
+        board.set(new CellPosition(1, 0), 'T');
+        board.set(new CellPosition(2, 0), 'T');
+        board.set(new CellPosition(0, 1), '-');
+        board.set(new CellPosition(1, 1), 'L');
+        board.set(new CellPosition(2, 1), '-');
+        board.set(new CellPosition(0, 2), '-');
+        board.set(new CellPosition(1, 2), 'S');
+        board.set(new CellPosition(2, 2), '-');
+
+        assertEquals(1, board.removeFullRows());
+
+        String expected = String.join("\n", new String[] {
+                "---",
+                "T--",
+                "T--",
+        });
+        assertEquals(expected, board.prettyString());
+    }
 }
