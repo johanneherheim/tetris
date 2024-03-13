@@ -33,6 +33,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     /** The holdingTetromino object saved in the model */
     Tetromino holdingTetromino;
 
+    /** The next tetrominos saved in an arraylist */
     private ArrayList<Tetromino> tetrominoQueue;
 
     /** The gamestate of the game */
@@ -87,6 +88,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         return holdingTetromino;
     }
 
+    @Override
     public ArrayList<Tetromino> getNextTetrominos() {
         return tetrominoQueue;
     }
@@ -167,6 +169,12 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         }
     }
 
+    /**
+     * This method is used to glue the tetromino to the board.
+     * 
+     * @param tetromino   the tetromino to be glued
+     * @param tetrisBoard the tetrisBoard
+     */
     void glueTetrominoToBoard(Tetromino tetromino, TetrisBoard tetrisBoard) {
         int startRow = tetromino.getCellPosition().row();
         int startCol = tetromino.getCellPosition().col();
@@ -201,6 +209,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         glueTetrominoToBoard(tetromino, tetrisBoard);
     }
 
+    @Override
     public void holdTetromino() {
         if (holdingTetromino == null) {
             holdingTetromino = tetromino;
@@ -234,7 +243,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
-    public Integer delay(int level) {
+    public Integer getDelay(int level) {
         level = Math.max(1, Math.min(level, 8));
         return 1000 - (level - 1) * 100;
     }
@@ -274,6 +283,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         this.level = level;
     }
 
+    @Override
     public void resetGame() {
         gameState = GameState.WELCOME_SCREEN;
 

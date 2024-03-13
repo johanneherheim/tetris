@@ -41,13 +41,12 @@ public interface ViewableTetrisModel {
      */
     Iterable<GridCell<Character>> getShadowPosition();
 
-    Tetromino getHoldingTetromino();
-
     /**
-     * Gives us the current gamestate
+     * Gives us the tetromino on hold
      * 
-     * @return the current gamestate
+     * @return the tetroino on hold, or null if there is none
      */
+    Tetromino getHoldingTetromino();
 
     /**
      * Gives us the current gamestate
@@ -91,4 +90,5 @@ public interface ViewableTetrisModel {
      * @return the three next tetrominos in an arraylist
      */
     ArrayList<Tetromino> getNextTetrominos();
+
 }

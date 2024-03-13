@@ -26,6 +26,11 @@ public interface ControllableTetrisModel {
     void dropTetromino();
 
     /**
+     * Holds the tetromino
+     */
+    void holdTetromino();
+
+    /**
      * Gives us the current gamestate
      * 
      * @return the current gamestate
@@ -59,7 +64,7 @@ public interface ControllableTetrisModel {
      * 
      * @return milliseconds between each tick
      */
-    Integer delay(int level);
+    Integer getDelay(int level);
 
     /**
      * Gets called each time the clock ticks
@@ -70,7 +75,5 @@ public interface ControllableTetrisModel {
      * Resets the game
      */
     void resetGame();
-
-    void holdTetromino();
 
 }

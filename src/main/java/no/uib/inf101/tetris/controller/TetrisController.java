@@ -14,9 +14,16 @@ import no.uib.inf101.tetris.view.TetrisView;
  */
 public class TetrisController implements java.awt.event.KeyListener {
 
+    /** The model */
     ControllableTetrisModel controllableTetrisModel;
+
+    /** The view */
     TetrisView tetrisView;
+
+    /** The timer */
     Timer timer;
+
+    /** The tetris-music */
     TetrisSong music = new TetrisSong();
 
     /**
@@ -31,7 +38,7 @@ public class TetrisController implements java.awt.event.KeyListener {
         this.tetrisView = tetrisView;
         tetrisView.addKeyListener(this);
         tetrisView.setFocusable(true);
-        this.timer = new Timer(controllableTetrisModel.delay(1), this::clockTick);
+        this.timer = new Timer(controllableTetrisModel.getDelay(1), this::clockTick);
         timer.start();
         music.run();
     }
@@ -74,6 +81,11 @@ public class TetrisController implements java.awt.event.KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
+    /**
+     * Method for the clockTick
+     * 
+     * @param e the action event
+     */
     void clockTick(ActionEvent e) {
         if (controllableTetrisModel.getGameState() == GameState.ACTIVE_GAME) {
             controllableTetrisModel.clockTick();
@@ -82,8 +94,11 @@ public class TetrisController implements java.awt.event.KeyListener {
         }
     }
 
+    /**
+     * Method for getting the delay
+     */
     void getDelay() {
-        timer.setDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
-        timer.setInitialDelay(controllableTetrisModel.delay(controllableTetrisModel.getLevel()));
+        timer.setDelay(controllableTetrisModel.getDelay(controllableTetrisModel.getLevel()));
+        timer.setInitialDelay(controllableTetrisModel.getDelay(controllableTetrisModel.getLevel()));
     }
 }
