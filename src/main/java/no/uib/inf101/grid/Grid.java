@@ -65,11 +65,11 @@ public class Grid<E> implements IGrid<E> {
 
     @Override
     public Iterator<GridCell<E>> iterator() {
-        ArrayList<GridCell<E>> grid = new ArrayList<GridCell<E>>(cells);
+        ArrayList<GridCell<E>> grid = new ArrayList<GridCell<E>>();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 CellPosition pos = new CellPosition(i, j);
-                cells.add(new GridCell<E>(pos, get(pos)));
+                grid.add(new GridCell<E>(pos, get(pos)));
             }
         }
         return grid.iterator();
