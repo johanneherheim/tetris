@@ -41,6 +41,10 @@ public class TetrisView extends JPanel {
     /** The game over message */
     ArrayList<String> gameOverMessage = new ArrayList<>(Arrays.asList("Game over"));
 
+    /** The game over message */
+    ArrayList<String> pauseMessage = new ArrayList<>(
+            Arrays.asList("Press esc to resume game", "Press enter to restart game"));
+
     /** The welcome message */
     ArrayList<String> welcomeMessage = new ArrayList<>(Arrays.asList("VELKOMMEN TIL TETRIS!", "Trykk s for å starte"));
 
@@ -70,6 +74,8 @@ public class TetrisView extends JPanel {
             drawGameOver(g2, getThreeHighestScores(), tetrisModel.getScore());
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
             drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 20);
+        } else if (tetrisModel.getGameState() == GameState.PAUSED) {
+            drawCanvasWithText(g2, pauseMessage, colorTheme.getTextColor(), 20);
         } else {
             drawGame(g2);
         }

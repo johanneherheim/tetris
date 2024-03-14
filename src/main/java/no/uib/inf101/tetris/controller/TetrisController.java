@@ -63,12 +63,19 @@ public class TetrisController implements java.awt.event.KeyListener {
                 controllableTetrisModel.dropTetromino();
             } else if (e.getKeyCode() == KeyEvent.VK_C) {
                 controllableTetrisModel.holdTetromino();
+            } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                controllableTetrisModel.setGameState(GameState.PAUSED);
             }
         } else if (controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN
                 && e.getKeyCode() == KeyEvent.VK_S) {
             controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
 
-        } else if (controllableTetrisModel.getGameState() == GameState.GAME_OVER) {
+        } else if (controllableTetrisModel.getGameState() == GameState.PAUSED
+                && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
+
+        } else if (controllableTetrisModel.getGameState() == GameState.GAME_OVER
+                || controllableTetrisModel.getGameState() == GameState.PAUSED) {
 
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 controllableTetrisModel.resetGame();
