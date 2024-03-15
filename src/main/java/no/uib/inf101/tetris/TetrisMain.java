@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import no.uib.inf101.tetris.controller.TetrisController;
 import no.uib.inf101.tetris.model.TetrisBoard;
 import no.uib.inf101.tetris.model.TetrisModel;
-import no.uib.inf101.tetris.model.tetromino.RandomTetrominoFactory;
+import no.uib.inf101.tetris.model.tetromino.SevenBagTetrominoFactory;
 import no.uib.inf101.tetris.model.tetromino.TetrominoFactory;
 import no.uib.inf101.tetris.view.TetrisView;
 
@@ -20,7 +20,7 @@ public class TetrisMain {
 
     TetrisBoard tetrisBoard = new TetrisBoard(rows, cols);
 
-    TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
+    TetrominoFactory tetrominoFactory = new SevenBagTetrominoFactory();
 
     TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrominoFactory);
     TetrisView view = new TetrisView(tetrisModel);
