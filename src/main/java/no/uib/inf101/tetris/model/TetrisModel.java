@@ -192,11 +192,13 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
             tetrisBoard.set(tetrominoPosition, tetromino.getType());
         }
         Integer linesRemoved = tetrisBoard.removeFullRows();
-        lineCount += linesRemoved;
         if (linesRemoved > 0) {
             score += getPoints(linesRemoved) * level;
-            if (lineCount % 10 == 0) {
-                level++;
+            for (int i = 1; i < linesRemoved + 1; i++) {
+                lineCount++;
+                if (lineCount % 10 == 0) {
+                    level++;
+                }
             }
         }
         getNewFallingTetromino();
