@@ -50,7 +50,7 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      * @param type the type of the tetromino as a character.
      * @return New tetromino object based on the type.
      */
-    static Tetromino newTetromino(char type) {
+    protected static Tetromino newTetromino(char type) {
         boolean[][] shape;
         switch (type) {
             case 'L':
