@@ -11,10 +11,10 @@ public class DefaultColorThemeTest {
     @Test
     public void sanityDefaultColorThemeTest() {
         ColorTheme colors = new DefaultColorTheme();
-        assertEquals(Color.WHITE, colors.getBackgroundColor());
-        assertEquals(Color.LIGHT_GRAY, colors.getFrameColor());
-        assertEquals(Color.BLACK, colors.getCellColor('-'));
-        assertEquals(Color.RED, colors.getCellColor('r'));
+        assertEquals(new Color(31, 31, 31), colors.getBackgroundColor());
+        assertEquals(Color.DARK_GRAY, colors.getFrameColor());
+        assertEquals(new Color(31, 31, 31), colors.getCellColor('-'));
+        assertEquals(new Color(255, 76, 97), colors.getCellColor('T'));
         assertThrows(IllegalArgumentException.class, () -> colors.getCellColor('\n'));
     }
 
