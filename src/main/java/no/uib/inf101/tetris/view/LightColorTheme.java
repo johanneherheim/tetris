@@ -2,15 +2,12 @@ package no.uib.inf101.tetris.view;
 
 import java.awt.Color;
 
-/**
- * The default color theme for the tetris game.
- */
-public class DefaultColorTheme implements ColorTheme {
+public class LightColorTheme implements ColorTheme {
 
     @Override
     public Color getCellColor(char c) {
         Color color = switch (c) {
-            case '-' -> new Color(31, 31, 31);
+            case '-' -> Color.GRAY;
             case 'T' -> new Color(255, 76, 97); // red
             case 'O' -> new Color(255, 167, 96); // orange
             case 'I' -> new Color(255, 237, 100); // yellow
@@ -22,26 +19,25 @@ public class DefaultColorTheme implements ColorTheme {
             default -> throw new IllegalArgumentException("No available color for '" + c + "'");
         };
         return color;
-
     }
 
     @Override
     public Color getFrameColor() {
-        return Color.DARK_GRAY;
+        return Color.LIGHT_GRAY;
     }
 
     @Override
     public Color getGridColor() {
-        return Color.BLACK;
+        return Color.DARK_GRAY;
     }
 
     @Override
     public Color getBackgroundColor() {
-        return new Color(31, 31, 31);
+        return Color.WHITE;
     }
 
     @Override
     public Color getTextColor() {
-        return Color.WHITE;
+        return Color.DARK_GRAY;
     }
 }

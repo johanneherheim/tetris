@@ -32,4 +32,11 @@ public interface ColorTheme {
      * @return Color
      */
     Color getTextColor();
+
+    /**
+     * Get the color for the grid from the theme.
+     * 
+     * @return Color
+     */
+    Color getGridColor();
 }

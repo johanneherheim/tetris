@@ -7,6 +7,8 @@ import javax.swing.Timer;
 
 import no.uib.inf101.tetris.midi.TetrisSong;
 import no.uib.inf101.tetris.model.GameState;
+import no.uib.inf101.tetris.view.DefaultColorTheme;
+import no.uib.inf101.tetris.view.LightColorTheme;
 import no.uib.inf101.tetris.view.TetrisView;
 
 /**
@@ -66,10 +68,16 @@ public class TetrisController implements java.awt.event.KeyListener {
             } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 controllableTetrisModel.setGameState(GameState.PAUSED);
             }
-        } else if (controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN
-                && e.getKeyCode() == KeyEvent.VK_S) {
-            controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
-
+        } else if (controllableTetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
+            if (e.getKeyCode() == KeyEvent.VK_S) {
+                controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
+            } else if (e.getKeyCode() == KeyEvent.VK_L) {
+                tetrisView.setColorTheme(new LightColorTheme());
+            } else if (e.getKeyCode() == KeyEvent.VK_L) {
+                tetrisView.setColorTheme(new LightColorTheme());
+            } else if (e.getKeyCode() == KeyEvent.VK_D) {
+                tetrisView.setColorTheme(new DefaultColorTheme());
+            }
         } else if (controllableTetrisModel.getGameState() == GameState.PAUSED
                 && e.getKeyCode() == KeyEvent.VK_S) {
             controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
