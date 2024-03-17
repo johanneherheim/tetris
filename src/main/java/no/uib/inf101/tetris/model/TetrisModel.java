@@ -11,42 +11,41 @@ import no.uib.inf101.tetris.model.tetromino.TetrominoFactory;
 import no.uib.inf101.tetris.view.ViewableTetrisModel;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter; // Import the FileWriter class
-import java.io.IOException; // Import the IOException class to handle errors
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
  * This class implements the ViewableTetrisModel interface, and is used to give
  * the view access to the model.
  */
-
 public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel {
-    /** The tetrisBoard object saved in the model */
-    TetrisBoard tetrisBoard;
-
-    /** The randomTetromino object saved in the model */
-    TetrominoFactory randomTetromino;
-
     /** The tetromino object saved in the model */
     Tetromino tetromino;
 
+    /** The tetrisBoard object saved in the model */
+    private TetrisBoard tetrisBoard;
+
+    /** The randomTetromino object saved in the model */
+    private TetrominoFactory randomTetromino;
+
     /** The holdingTetromino object saved in the model */
-    Tetromino holdingTetromino;
+    private Tetromino holdingTetromino;
 
     /** The next tetrominos saved in an arraylist */
     private ArrayList<Tetromino> tetrominoQueue;
 
     /** The gamestate of the game */
-    public GameState gameState;
+    private GameState gameState;
 
     /** The number of lines removed */
-    public Integer lineCount;
+    private Integer lineCount;
 
     /** The score of the game */
-    public Integer score;
+    private Integer score;
 
     /** The level of the game */
-    public Integer level;
+    private Integer level;
 
     /**
      * Class constructor
@@ -120,8 +119,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     @Override
     public boolean rotateTetromino() {
         Tetromino candidate = tetromino;
-
-        // if a wall-kick is needed, the new position is saved in candidate
+        // if a wall-kick is needed, the new position is saved in candidate:
         if (tetromino.getCellPosition().row() < 0) {
             candidate = candidate.shiftedBy(1, 0);
         } else if (tetromino.getCellPosition().col() < 0) {
@@ -129,16 +127,16 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         } else if (tetromino.getCellPosition().col() + tetromino.getShape()[0].length > tetrisBoard.cols()) {
             candidate = candidate.shiftedBy(0, -1);
         }
-
+        // if the tetromino is rotatable, it is rotated:
         if (tetromino.isRotatable(tetrisBoard)) {
             tetromino = tetromino.rotate();
             return true;
-        } else if (candidate.isRotatable(tetrisBoard)) {
+        }
+        // if the tetromino is not rotatable, try wall-kick:
+        else if (candidate.isRotatable(tetrisBoard)) {
             tetromino = candidate.rotate();
             return true;
         }
-
-        // if the tetromino is not rotatable, and a wall-kick is not possible
         return false;
 
     }
@@ -147,18 +145,16 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
      * This method is used to get a new falling tetromino. If it is not possible to
      * move the tetromino, the game is over and the score is saved in a file.
      */
-    public void getNewFallingTetromino() {
+    private void getNewFallingTetromino() {
         Tetromino newTetromino = tetrominoQueue.get(0).shiftedToTopCenterOf(tetrisBoard);
         tetrominoQueue.remove(0);
         tetromino = newTetromino;
         tetrominoQueue.add(randomTetromino.getNext());
         if (!tetromino.isLegalMove(tetrisBoard, tetromino)) {
             gameState = GameState.GAME_OVER;
-
             // stack overflow
             // https://stackoverflow.com/questions/1625234/how-to-append-text-to-an-existing-file-in-java
             // 7. mars 2024
-
             try (FileWriter fw = new FileWriter("db/highscores.txt", true);
                     BufferedWriter bw = new BufferedWriter(fw);
                     PrintWriter out = new PrintWriter(bw)) {
@@ -175,7 +171,7 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
      * @param tetromino   the tetromino to be glued
      * @param tetrisBoard the tetrisBoard
      */
-    void glueTetrominoToBoard(Tetromino tetromino, TetrisBoard tetrisBoard) {
+    private void glueTetrominoToBoard(Tetromino tetromino, TetrisBoard tetrisBoard) {
         int startRow = tetromino.getCellPosition().row();
         int startCol = tetromino.getCellPosition().col();
 

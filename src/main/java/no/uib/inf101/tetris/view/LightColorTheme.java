@@ -2,6 +2,10 @@ package no.uib.inf101.tetris.view;
 
 import java.awt.Color;
 
+/**
+ * This class implements the ColorTheme interface, and is used to give the view
+ * a light colortheme.
+ */
 public class LightColorTheme implements ColorTheme {
 
     @Override

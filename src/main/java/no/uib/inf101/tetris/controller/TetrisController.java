@@ -101,7 +101,7 @@ public class TetrisController implements java.awt.event.KeyListener {
      * 
      * @param e the action event
      */
-    void clockTick(ActionEvent e) {
+    private void clockTick(ActionEvent e) {
         if (controllableTetrisModel.getGameState() == GameState.ACTIVE_GAME) {
             controllableTetrisModel.clockTick();
             getDelay();
@@ -112,7 +112,7 @@ public class TetrisController implements java.awt.event.KeyListener {
     /**
      * Method for getting the delay
      */
-    void getDelay() {
+    private void getDelay() {
         timer.setDelay(controllableTetrisModel.getDelay(controllableTetrisModel.getLevel()));
         timer.setInitialDelay(controllableTetrisModel.getDelay(controllableTetrisModel.getLevel()));
     }

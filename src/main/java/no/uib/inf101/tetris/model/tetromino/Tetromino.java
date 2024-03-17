@@ -16,18 +16,18 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      * The type of tetromino saved as a character.
      * It can be L, J, S, Z, T, I or O.
      */
-    char type;
+    private char type;
 
     /**
      * The shape of the tetromino saved as a 2D boolean array.
      * True means that the cell is part of the tetromino.
      */
-    boolean[][] shape;
+    private boolean[][] shape;
 
     /**
      * The position of the tetromino saved as a CellPosition.
      */
-    CellPosition cellPosition;
+    private CellPosition cellPosition;
 
     /**
      * The constructor for the Tetromino class.
@@ -135,7 +135,6 @@ public class Tetromino implements Iterable<GridCell<Character>> {
      * @return true or false
      */
     public boolean isLegalMove(Grid<Character> grid, Tetromino tetrominoCandidate) {
-
         int startRow = tetrominoCandidate.cellPosition.row();
         int startCol = tetrominoCandidate.cellPosition.col();
 
@@ -224,7 +223,7 @@ public class Tetromino implements Iterable<GridCell<Character>> {
     /**
      * Get the type of the tetromino.
      * 
-     * @return the type of the tetromino.
+     * @return the type of the tetromino as a char.
      */
     public char getType() {
         return type;

@@ -13,7 +13,6 @@ public class TetrisBoard extends Grid<Character> {
      * @param rows number of rows
      * @param cols number of columns
      */
-
     public TetrisBoard(int rows, int cols) {
         super(rows, cols, '-');
     }
@@ -23,8 +22,7 @@ public class TetrisBoard extends Grid<Character> {
      * 
      * @return a string representation of the board
      */
-
-    public String prettyString() {
+    String prettyString() {
         String board = "";
         Integer count = 1;
         for (GridCell<Character> cell : this) {
@@ -59,27 +57,24 @@ public class TetrisBoard extends Grid<Character> {
      */
     Integer removeFullRows() {
         TetrisBoard newBoard = this;
-        // Opprett tellevariabel for å telle hvor mange rader som blir forkastet
+        // Opprett tellevariabel for å telle hvor mange rader som blir forkastet:
         int a = this.rows() - 1;
         int b = this.rows() - 1;
         int lineCount = 0;
-
-        // så lenge a er en rad på brettet
+        // så lenge a er en rad på brettet:
         while (a >= 0) {
-
-            // så lenge b er en rad på brettet og er full
+            // så lenge b er en rad på brettet og er full:
             while (b >= 0 && newBoard.isRowFull(b)) {
                 b -= 1;
                 lineCount++;
             }
-
-            // hvis b fremdeles er på brettet
+            // hvis b fremdeles er på brettet:
             if (b >= 0) {
-                // kopier rekken b står ved inn i rekken a står ved
+                // kopier rekken b står ved inn i rekken a står ved:
                 for (int col = 0; col < newBoard.cols(); col++) {
                     newBoard.set(new CellPosition(a, col), newBoard.get(new CellPosition(b, col)));
                 }
-                // viss ingen b, fyll rekken a står ved med blanke ruter
+                // viss ingen b, fyll rekken a står ved med blanke ruter:
             } else {
                 for (int col = 0; col < newBoard.cols(); col++) {
                     newBoard.set(new CellPosition(a, col), '-');
@@ -88,7 +83,6 @@ public class TetrisBoard extends Grid<Character> {
             a -= 1;
             b -= 1;
         }
-
         return lineCount;
     }
 

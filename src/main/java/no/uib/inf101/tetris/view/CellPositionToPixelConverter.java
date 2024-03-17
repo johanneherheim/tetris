@@ -9,13 +9,13 @@ import no.uib.inf101.grid.GridDimension;
 public class CellPositionToPixelConverter {
 
     /** The rectangle that the grid is drawn in. */
-    Rectangle2D box;
+    private Rectangle2D box;
 
     /** The grid dimension of the grid (number of rows and cols). */
-    GridDimension gd;
+    private GridDimension gd;
 
     /** The width of the grid lines. */
-    double MARGIN;
+    private double MARGIN;
 
     /**
      * Constructor for the CellPositionToPixelConverter
@@ -37,7 +37,7 @@ public class CellPositionToPixelConverter {
      * @return the cell as a Rectangle2D object
      */
 
-    public Rectangle2D getBoundsForCell(CellPosition cp) {
+    Rectangle2D getBoundsForCell(CellPosition cp) {
         double y0 = this.box.getY();
         double x0 = this.box.getX();
         double boxWidth = this.box.getWidth();

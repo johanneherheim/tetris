@@ -2,10 +2,13 @@ package no.uib.inf101.tetris.controller;
 
 import no.uib.inf101.tetris.model.GameState;
 
+/**
+ * The ControllableTetrisModel interface is used to control the tetris game.
+ */
 public interface ControllableTetrisModel {
 
     /**
-     * Moves the tetromino
+     * Moves the tetromino in the given direction
      * 
      * @param deltaRow the change in row
      * @param deltaCol the change in column
@@ -26,7 +29,8 @@ public interface ControllableTetrisModel {
     void dropTetromino();
 
     /**
-     * Holds the tetromino
+     * Holds the current tetromino on the board, and if there already is a tetromino
+     * on hold, it swaps the two
      */
     void holdTetromino();
 
@@ -35,7 +39,6 @@ public interface ControllableTetrisModel {
      * 
      * @return the current gamestate
      */
-
     GameState getGameState();
 
     /**
@@ -46,9 +49,9 @@ public interface ControllableTetrisModel {
     void setGameState(GameState gameState);
 
     /**
-     * Gets the current level
+     * Gives us the current level
      * 
-     * @return level
+     * @return the current level
      */
     Integer getLevel();
 
