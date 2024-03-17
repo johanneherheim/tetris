@@ -3,6 +3,7 @@ package no.uib.inf101.tetris.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -17,9 +18,9 @@ import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.tetris.model.GameState;
 import no.uib.inf101.tetris.model.tetromino.Tetromino;
 
-import java.io.File; // Import the File class
-import java.io.FileNotFoundException; // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * This class has the methods that draws what the user sees in the game-window.
@@ -27,26 +28,16 @@ import java.util.Scanner; // Import the Scanner class to read text files
 public class TetrisView extends JPanel {
 
     /** The model for the Tetris-game */
-    ViewableTetrisModel tetrisModel;
+    private ViewableTetrisModel tetrisModel;
 
     /** The colortheme for the Tetris-game */
     private ColorTheme colorTheme;
 
     /** The margin between the cells on the board */
-    private static final double TETRISINNERMARGIN = 1;
+    private static final double INNERMARGIN = 1;
 
     /** The margin around all the elements in the game */
-    private static final double MARGIN = 15;
-
-    /** The game over message */
-    ArrayList<String> gameOverMessage = new ArrayList<>(Arrays.asList("Game over"));
-
-    /** The game over message */
-    ArrayList<String> pauseMessage = new ArrayList<>(
-            Arrays.asList("Press esc to resume game", "Press enter to restart game"));
-
-    /** The welcome message */
-    ArrayList<String> welcomeMessage = new ArrayList<>(Arrays.asList("VELKOMMEN TIL TETRIS!", "Trykk s for å starte"));
+    private static final double OUTERMARGIN = 15;
 
     /**
      * Constructor for TetrisView.
@@ -59,7 +50,6 @@ public class TetrisView extends JPanel {
     public TetrisView(ViewableTetrisModel tetrisModel) {
         this.tetrisModel = tetrisModel;
         this.colorTheme = new DefaultColorTheme();
-        this.setBackground(colorTheme.getFrameColor());
         if (tetrisModel.getGameState() == GameState.ACTIVE_GAME) {
             this.setFocusable(true);
         }
@@ -68,39 +58,18 @@ public class TetrisView extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        this.setBackground(colorTheme.getFrameColor());
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         if (tetrisModel.getGameState() == GameState.GAME_OVER) {
-            drawGameOver(g2, getThreeHighestScores(), tetrisModel.getScore());
+            drawGameOver(g2);
         } else if (tetrisModel.getGameState() == GameState.WELCOME_SCREEN) {
-            drawCanvasWithText(g2, welcomeMessage, colorTheme.getTextColor(), 20);
+            drawWelcomeScreen(g2);
         } else if (tetrisModel.getGameState() == GameState.PAUSED) {
-            drawCanvasWithText(g2, pauseMessage, colorTheme.getTextColor(), 20);
+            drawPauseScreen(g2);
         } else {
             drawGame(g2);
         }
-    }
-
-    /**
-     * Returns the canvas for the board.
-     * 
-     * @return The canvas
-     */
-    private Rectangle2D getCanvas() {
-        double maxSize = Math.min(this.getWidth(), this.getHeight() / 2);
-
-        double width = maxSize;
-        double height = maxSize * 2;
-
-        double x = (this.getWidth() - width) / 2;
-        double y = (this.getHeight() - height) / 2 + MARGIN;
-
-        double boxX = x + MARGIN;
-        double boxY = y + MARGIN;
-        double boxWidth = width - 2 * MARGIN;
-        double boxHeight = height - 4 * MARGIN;
-
-        return new Rectangle2D.Double(boxX, boxY, boxWidth, boxHeight);
     }
 
     /**
@@ -108,30 +77,65 @@ public class TetrisView extends JPanel {
      * 
      * @param g2 The graphics object
      */
-
     private void drawGame(Graphics2D g2) {
+        drawBoard(g2);
 
-        Rectangle2D canvas = getCanvas();
+        if (getHeight() * 4 / 5 < getWidth()) {
+            drawRightSidebar(g2);
+            drawLeftSidebar(g2);
+        }
+    }
 
-        g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(canvas);
-
-        CellPositionToPixelConverter tetrisBoardConverter = new CellPositionToPixelConverter(canvas,
-                tetrisModel.getDimension(), TETRISINNERMARGIN);
-
+    /**
+     * Draws the tetris-board.
+     * 
+     * @param g2 The graphics object
+     */
+    private void drawBoard(Graphics2D g2) {
+        Rectangle2D boardCanvas = getBoardCanvas();
+        g2.setColor(colorTheme.getGridColor());
+        g2.fill(boardCanvas);
+        CellPositionToPixelConverter tetrisBoardConverter = new CellPositionToPixelConverter(boardCanvas,
+                tetrisModel.getDimension(), INNERMARGIN);
         drawCells(g2, tetrisModel.getTilesOnBoard(), tetrisBoardConverter, colorTheme, false);
         drawCells(g2, tetrisModel.fallingTetromino(), tetrisBoardConverter, colorTheme, false);
         drawCells(g2, tetrisModel.getShadowPosition(), tetrisBoardConverter, colorTheme, true);
+    }
+
+    /**
+     * Draws the left sidebar.
+     * 
+     * @param g2 The graphics object
+     */
+    private void drawLeftSidebar(Graphics2D g2) {
+        drawInfoBox(g2);
+    }
+
+    /**
+     * Draws the right sidebar.
+     * 
+     * @param g2 The graphics object
+     */
+    private void drawRightSidebar(Graphics2D g2) {
         drawQueuedTetrominos(g2);
         g2.setColor(colorTheme.getTextColor());
         g2.setFont(new Font("Arial", Font.BOLD, 20));
-        Inf101Graphics.drawCenteredString(g2, "Hold:", MARGIN * 4, MARGIN);
+        Inf101Graphics.drawCenteredString(g2, "Hold:", OUTERMARGIN * 4, OUTERMARGIN);
         if (tetrisModel.getHoldingTetromino() != null) {
             drawHoldingTetromino(g2, tetrisModel.getHoldingTetromino(), colorTheme);
-        } else {
-
         }
-        drawInfo(g2);
+        g2.setFont(new Font("Arial", Font.PLAIN, 15));
+        g2.setColor(colorTheme.getTextColor());
+        // stack overflow
+        // https://stackoverflow.com/questions/19582502/how-to-get-the-correct-string-width-from-fontmetrics-in-java
+        // 17. mars 2024
+        FontMetrics metrics = g2.getFontMetrics(new Font("Arial", Font.PLAIN, 15));
+        int stringWidth = metrics.stringWidth("Trykk 'esc' for å pause");
+        Inf101Graphics.drawCenteredString(g2, "Trykk 'esc' for å pause",
+                getWidth() - OUTERMARGIN * 2 - stringWidth / 2, getHeight() - OUTERMARGIN * 2);
+        stringWidth = metrics.stringWidth("Trykk 'c' for å holde");
+        Inf101Graphics.drawCenteredString(g2, "Trykk 'c' for å holde",
+                getWidth() - OUTERMARGIN * 2 - stringWidth / 2, getHeight() - OUTERMARGIN * 4);
     }
 
     /**
@@ -140,12 +144,12 @@ public class TetrisView extends JPanel {
      * @param g2 The graphics object
      */
     private void drawQueuedTetrominos(Graphics2D g2) {
-        int startY = (int) MARGIN;
-        int startX = (int) (getCanvas().getMaxX() + MARGIN * 2);
+        int startY = (int) OUTERMARGIN;
+        int startX = (int) (getBoardCanvas().getMaxX() + OUTERMARGIN * 4);
 
         g2.setColor(colorTheme.getTextColor());
         g2.setFont(new Font("Arial", Font.BOLD, 20));
-        Inf101Graphics.drawCenteredString(g2, "Next:", this.getWidth() - this.getWidth() / 5, startY);
+        g2.drawString("Neste:", startX, (int) (startY + OUTERMARGIN));
 
         int tetrominoSize = this.getWidth() / 6;
         int spacing = 10;
@@ -154,6 +158,18 @@ public class TetrisView extends JPanel {
             Tetromino upcomingTetromino = tetrisModel.getNextTetrominos().get(i);
             drawSingleTetromino(g2, upcomingTetromino, startX, startY + i * (tetrominoSize + spacing), tetrominoSize);
         }
+    }
+
+    /**
+     * Draws the holding tetromino on the side of the board.
+     * 
+     * @param g2         The graphics object
+     * @param tetromino  The tetromino to draw
+     * @param colorTheme The color theme
+     */
+    private void drawHoldingTetromino(Graphics2D g2, Tetromino tetromino,
+            ColorTheme colorTheme) {
+        drawSingleTetromino(g2, tetromino, (int) OUTERMARGIN * 2, (int) OUTERMARGIN * 2, this.getWidth() / 6);
     }
 
     /**
@@ -167,10 +183,20 @@ public class TetrisView extends JPanel {
      */
     private void drawSingleTetromino(Graphics2D g2, Tetromino tetromino, int x, int y, int tetrominoSize) {
         boolean[][] shape = tetromino.getShape();
+        // if the shape is 3x3, we need to add a row and a col of false, so the size is
+        // constant
+        if (shape.length == 3) {
+            boolean[][] newShape = new boolean[4][4];
+            for (int i = 0; i < shape.length; i++) {
+                for (int j = 0; j < shape[i].length; j++) {
+                    newShape[i][j] = shape[i][j];
+                }
+            }
+            shape = newShape;
+        }
         CellPositionToPixelConverter converter = new CellPositionToPixelConverter(
                 new Rectangle2D.Double(x, y, tetrominoSize, tetrominoSize), new Grid<>(shape.length, shape[0].length),
-                TETRISINNERMARGIN);
-
+                INNERMARGIN);
         for (int i = 0; i < shape.length; i++) {
             for (int j = 0; j < shape[i].length; j++) {
                 if (shape[i][j]) {
@@ -183,32 +209,22 @@ public class TetrisView extends JPanel {
     }
 
     /**
-     * Draws the holding tetromino.
+     * Draws the info-box with the score, lines and level.
      * 
-     * @param g2         The graphics object
-     * @param shape      The shape of the tetromino
-     * @param type       The type of the tetromino
-     * @param colorTheme The color theme
+     * @param g2 The graphics object
      */
-
-    private void drawHoldingTetromino(Graphics2D g2, Tetromino tetromino,
-            ColorTheme colorTheme) {
-
-        CellPositionToPixelConverter converter = new CellPositionToPixelConverter(
-                new Rectangle2D.Double(MARGIN * 2, MARGIN * 2, this.getWidth() / 6, this.getWidth() / 6),
-                new Grid<>(tetromino.getShape().length, tetromino.getShape()[0].length),
-                TETRISINNERMARGIN);
-
-        for (int i = 0; i < tetromino.getShape().length; i++) {
-            for (int j = 0; j < tetromino.getShape()[i].length; j++) {
-                if (tetromino.getShape()[i][j]) {
-                    Rectangle2D tile = converter.getBoundsForCell(new CellPosition(i, j));
-                    g2.setColor(colorTheme.getCellColor(tetromino.getType()));
-                    g2.fill(tile);
-                }
-            }
-        }
-
+    private void drawInfoBox(Graphics2D g2) {
+        Rectangle2D box = new Rectangle2D.Double(OUTERMARGIN * 2, this.getHeight() / 2, this.getWidth() / 6,
+                this.getWidth() / 6);
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(box);
+        g2.setColor(colorTheme.getTextColor());
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        Inf101Graphics.drawCenteredString(g2, "Lines: " + tetrisModel.getLines(), box.getCenterX(),
+                box.getCenterY() - box.getWidth() / 4);
+        Inf101Graphics.drawCenteredString(g2, "Score: " + tetrisModel.getScore(), box.getCenterX(), box.getCenterY());
+        Inf101Graphics.drawCenteredString(g2, "Level: " + tetrisModel.getLevel(), box.getCenterX(),
+                box.getCenterY() + box.getWidth() / 4);
     }
 
     /**
@@ -223,7 +239,6 @@ public class TetrisView extends JPanel {
     private static void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid,
             CellPositionToPixelConverter converter, ColorTheme colorTheme, boolean isShadow) {
         for (GridCell<Character> gridCell : grid) {
-
             Rectangle2D tile = converter.getBoundsForCell(gridCell.pos());
             Color color = colorTheme.getCellColor(gridCell.value());
             if (isShadow) {
@@ -239,28 +254,38 @@ public class TetrisView extends JPanel {
     }
 
     /**
-     * Draws the canvas with the given text over the tetris-board.
+     * Returns the canvas for the board.
      * 
-     * @param g2          The graphics object
-     * @param linesOfText The text to be drawn in a list of strings
-     * @param textColor   The color of the text
-     * @param textSize    The size of the text
+     * @return The canvas for the board
      */
-    private void drawCanvasWithText(Graphics2D g2, ArrayList<String> linesOfText, Color textColor, int textSize) {
-        int lineSpace = 50;
-        int x = getWidth() / 2;
-        int y = getHeight() / 2;
-        Rectangle2D canvas = getCanvas();
-        g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(canvas);
-        g2.setColor(textColor);
-        g2.setFont(new Font("Arial", Font.BOLD, textSize));
-        int count = 1;
-        for (String line : linesOfText) {
-            Inf101Graphics.drawCenteredString(g2, line, x, y + lineSpace * count);
-            count++;
+    private Rectangle2D getBoardCanvas() {
+        double maxSize = Math.min(this.getWidth(), this.getHeight() / 2);
 
-        }
+        double width = maxSize;
+        double height = maxSize * 2;
+
+        double x = (this.getWidth() - width) / 2;
+        double y = (this.getHeight() - height) / 2 + OUTERMARGIN;
+
+        double boxX = x + OUTERMARGIN;
+        double boxY = y + OUTERMARGIN;
+        double boxWidth = width - 2 * OUTERMARGIN;
+        double boxHeight = height - 4 * OUTERMARGIN;
+
+        return new Rectangle2D.Double(boxX, boxY, boxWidth, boxHeight);
+    }
+
+    /**
+     * Returns the canvas for the whole screen.
+     * 
+     * @return The canvas for the whole screen
+     */
+    private Rectangle2D getScreenCanvas() {
+        double x0 = OUTERMARGIN;
+        double y0 = OUTERMARGIN;
+        double width = this.getWidth() - 2 * OUTERMARGIN;
+        double height = this.getHeight() - 2 * OUTERMARGIN;
+        return new Rectangle2D.Double(x0, y0, width, height);
     }
 
     /**
@@ -268,7 +293,7 @@ public class TetrisView extends JPanel {
      * 
      * @return List of the three highest scores
      */
-    ArrayList<Integer> getThreeHighestScores() {
+    private ArrayList<Integer> getThreeHighestScores() {
         int firstPlace = 0;
         int secondPlace = 0;
         int thirdPlace = 0;
@@ -305,44 +330,84 @@ public class TetrisView extends JPanel {
     /**
      * Draws the game over screen.
      * 
-     * @param g2            The graphics object
-     * @param highestScores The three highest scores
-     * @param score         The score of the current game
+     * @param g2 The graphics object
      */
-    private void drawGameOver(Graphics2D g2, ArrayList<Integer> highestScores, Integer score) {
-        Rectangle2D canvas = getCanvas();
+    private void drawGameOver(Graphics2D g2) {
+        ArrayList<Integer> highestScores = getThreeHighestScores();
+        Integer score = tetrisModel.getScore();
+        Rectangle2D boardCanvas = getScreenCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(canvas);
+        g2.fill(boardCanvas);
         g2.setColor(colorTheme.getTextColor());
-        g2.setFont(new Font("Arial", Font.BOLD, 40));
+        g2.setFont(new Font("Arial", Font.BOLD, getWidth() / 20));
         Inf101Graphics.drawCenteredString(g2, "Game over!", getWidth() / 2, getHeight() * 1 / 5);
-        g2.setFont(new Font("Arial", Font.BOLD, 20));
-        Inf101Graphics.drawCenteredString(g2, "Your score: " + score, getWidth() / 2, getHeight() / 3);
-        Inf101Graphics.drawCenteredString(g2, "Highscores", getWidth() / 2, getHeight() / 2);
-
+        g2.setFont(new Font("Arial", Font.BOLD, getWidth() / 35));
+        if (score >= highestScores.get(0) && score > 0) {
+            Inf101Graphics.drawCenteredString(g2, "🎉 Ny rekord med " + score + " poeng! 🎉", getWidth() / 2,
+                    getHeight() / 3);
+        } else if (score == 0) {
+            Inf101Graphics.drawCenteredString(g2, "Du fikk bare " + score + " poeng. Så trist! 😢", getWidth() / 2,
+                    getHeight() / 3);
+        } else {
+            Inf101Graphics.drawCenteredString(g2, "Du fikk " + score + " poeng 🦾", getWidth() / 2, getHeight() / 3);
+        }
+        Inf101Graphics.drawCenteredString(g2, "Rekorder:", getWidth() / 2, getHeight() / 2);
+        g2.setFont(new Font("Arial", Font.PLAIN, getWidth() / 35));
         Inf101Graphics.drawCenteredString(g2, "1. " + highestScores.get(0), getWidth() / 2, getHeight() / 2 + 50);
         Inf101Graphics.drawCenteredString(g2, "2. " + highestScores.get(1), getWidth() / 2, getHeight() / 2 + 100);
         Inf101Graphics.drawCenteredString(g2, "3. " + highestScores.get(2), getWidth() / 2, getHeight() / 2 + 150);
-        Inf101Graphics.drawCenteredString(g2, "Press Enter to start a new game", getWidth() / 2, getHeight() / 2 + 300);
+        g2.setFont(new Font("Arial", Font.BOLD, getWidth() / 35));
+        Inf101Graphics.drawCenteredString(g2, "Trykk 'enter' for å starte på nytt", getWidth() / 2,
+                getHeight() / 2 + 300);
     }
 
     /**
-     * Draws the info-box with the score, lines and level.
+     * Draws the welcome screen.
      * 
      * @param g2 The graphics object
      */
-    private void drawInfo(Graphics2D g2) {
-        Rectangle2D box = new Rectangle2D.Double(MARGIN * 2, this.getHeight() / 2, this.getWidth() / 6,
-                this.getWidth() / 6);
+    private void drawWelcomeScreen(Graphics2D g2) {
+        Rectangle2D screenCanvas = getScreenCanvas();
         g2.setColor(colorTheme.getBackgroundColor());
-        g2.fill(box);
-        g2.setColor(Color.BLACK);
-        g2.setFont(new Font("Arial", Font.BOLD, 20));
-        Inf101Graphics.drawCenteredString(g2, "Lines: " + tetrisModel.getLines(), box.getCenterX(),
-                box.getCenterY() - box.getWidth() / 4);
-        Inf101Graphics.drawCenteredString(g2, "Score: " + tetrisModel.getScore(), box.getCenterX(), box.getCenterY());
-        Inf101Graphics.drawCenteredString(g2, "Level: " + tetrisModel.getLevel(), box.getCenterX(),
-                box.getCenterY() + box.getWidth() / 4);
+        g2.fill(screenCanvas);
+        g2.setColor(colorTheme.getTextColor());
+        g2.setFont(new Font("Arial", Font.BOLD, getWidth() / 20));
+        Inf101Graphics.drawCenteredString(g2, "VELKOMMEN TIL TETRIS!", getWidth() / 2, getHeight() * 2 / 5);
+        g2.setFont(new Font("Arial", Font.PLAIN, getWidth() / 35));
+        Inf101Graphics.drawCenteredString(g2, "👉 Trykk 's' for å starte", getWidth() / 2, getHeight() * 4 / 5);
+
+        // Toggle color theme button
+        g2.setFont(new Font("Arial", Font.PLAIN, getWidth() / 60));
+        Inf101Graphics.drawCenteredString(g2, "trykk 'l' for lightmode, og 'd' for darkmode", getWidth() / 2,
+                getHeight() * 19 / 20);
+    }
+
+    /**
+     * Draws the pause screen.
+     * 
+     * @param g2 The graphics object
+     */
+    private void drawPauseScreen(Graphics2D g2) {
+        Rectangle2D screenCanvas = getScreenCanvas();
+        g2.setColor(colorTheme.getBackgroundColor());
+        g2.fill(screenCanvas);
+        g2.setColor(colorTheme.getTextColor());
+        g2.setFont(new Font("Arial", Font.BOLD, getWidth() / 20));
+        Inf101Graphics.drawCenteredString(g2, "PAUSE", getWidth() / 2, getHeight() * 1 / 3);
+        g2.setFont(new Font("Arial", Font.BOLD, getWidth() / 35));
+        Inf101Graphics.drawCenteredString(g2, "👉 Trykk 's' for å fortsette", getWidth() / 2, getHeight() * 3 / 5);
+        g2.setFont(new Font("Arial", Font.PLAIN, getWidth() / 50));
+        Inf101Graphics.drawCenteredString(g2, "Trykk 'enter' for å starte på nytt", getWidth() / 2,
+                getHeight() * 7 / 8);
+    }
+
+    /**
+     * Sets the colortheme for the game.
+     * 
+     * @param colorTheme The colortheme
+     */
+    public void setColorTheme(ColorTheme colorTheme) {
+        this.colorTheme = colorTheme;
     }
 
 }
